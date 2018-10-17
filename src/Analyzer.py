@@ -14,8 +14,8 @@ def main(args):
     
     #dict = { 'Coucou': ['1', '2', '3', '4']}
     #print(dict['Coucou'][0])
-    readFiles.ReadAFile(parser.files[0])
-
+    #readFiles.ReadAFile(parser.files[0])
+    dictData = readFiles.ReadAllFiles(parser.files)
 
 # Need this to run the main function
 if __name__ == "__main__":
