@@ -11,8 +11,12 @@
 ## TODO
 
 - Faire des recherches sur afin de créer l'objet d'overlap
-- Faire des recherches sur les hashMap
 - Implémenter une fonction par type de fichier qui donne une double hash map
+
+## DONE
+
+- Faire des recherches sur les hashMap
+    - En fait se sont des dictionnaires
 
 ## Infos complémentaires
 
