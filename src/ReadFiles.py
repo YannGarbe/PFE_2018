@@ -51,3 +51,14 @@ class ReadFiles:
         
         """Return the array containing the file's data"""
         return data
+
+        #Créer une classe qui garde les informations importantes
+        #Table de hash qui avec A > Tous les overlaps de 
+        #Table [Read A] [Read B] > Objet contenant l'overlap
+        # table[Read B][Read A] = table[Read A][Read B]
+        
+        #Fonction de hash
+        # "1" -> 56
+        # "2" -> 56 => Collision, du coup python duplique la valeur
+
+        # =>> Le nombre d'opérations dans une table 
