@@ -62,3 +62,28 @@ class ReadFiles:
         # "2" -> 56 => Collision, du coup python duplique la valeur
 
         # =>> Le nombre d'opérations dans une table 
+
+    def ExtractHiseaData(self, filepath):
+        """Extract the right informations in a hisea file and store it in an object
+
+        Attributes:
+            filepath : the file's path
+        """
+        pass
+    
+    def ExtractPafData(self, filepath):
+        """Extract the right informations in a paf file and store it in an object
+
+        Attributes:
+            filepath : the file's path
+        """
+        pass
+    
+    def ExtractMhapData(self, filepath):
+        """Extract the right informations in a mhap file and store it in an object
+
+        Attributes:
+            filepath : the file's path
+        """
+        pass
+    
