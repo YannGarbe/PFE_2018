@@ -10,15 +10,25 @@
 
 ## TODO
 
-- Faire des recherches sur afin de créer l'objet d'overlap
-- Implémenter une fonction par type de fichier qui donne une double hash map
-- Utiliser le module csv de python pour parser les lignes
-- Ajouter des commentaire au début de chaque block d'inscruction (if, for etc....)
+- Ajouter la longueur des séquences dans l'interval
+- Faire tableau d'intervals au lieu d'un interval aux données correspondantes (dans la hashmap)
+- Vérifier que architecture est adaptée tests d'isolation, la modifier en conséquences
+- (facultatif) Faire des tests
+
+### Pour la prochaine séance
+
+- Faire une première analyse :
+    - Si A est dans B
+    - Si B est dans A
+    - Si une partie de A est dans B
+    - Si une partie de B est dans A
+- (facultatif) Faire un début de sortie
 
 ## DONE
 
 - Faire des recherches sur les hashMap
-    - En fait se sont des dictionnaires
+- Créer un objet interval
+- Utilisation d'une double hashmap
 
 ## Infos complémentaires
 
@@ -42,8 +52,8 @@ Créer une classe qui garde les informations importantes
 - filename : nom du fichier
 - id_A : id du read A (int)
 - id_B : id du read B (int)
-- reverse_A : indique si A est inversé ou non (bool)
-- reverse_B : indique si B est inversé ou non (bool)
+- length_A : longueur de la séquence A
+- length_B : longueur de la séquence B
 - start_A : indice de début de A
 - start_B : indice de début de B
 - end_A : indice de fin de A

@@ -68,6 +68,7 @@ class ExtractDataPaf(ExtractData):
         if line[5] not in dictData:
             dictData[line[5]] = {} 
         
+        #default_dict
         #To fix?
         dictData[line[0]][line[5]] = tmp_interval
         dictData[line[5]][line[0]] = tmp_interval
