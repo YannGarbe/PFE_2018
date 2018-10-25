@@ -18,7 +18,7 @@ def main(args):
 
     
     #readFiles.ExtractMhapData(parser.files[0])
-    readFiles.readAFile(parser.files[0])
+    readFiles.readAFile({}, parser.files[0])
     
 
     #dictData = readFiles.ReadAllFiles(parser.files)

@@ -10,8 +10,8 @@
 
 ## TODO
 
-- Ajouter la longueur des séquences dans l'interval
-- Faire tableau d'intervals au lieu d'un interval aux données correspondantes (dans la hashmap)
+- Ajouter la longueur des séquences dans l'intervalle `OK`
+- Faire tableau d'intervalles au lieu d'un intervalle aux données correspondantes (dans la hashmap) `OK`
 - Vérifier que architecture est adaptée tests d'isolation, la modifier en conséquences
 - (facultatif) Faire des tests
 
@@ -23,6 +23,7 @@
     - Si une partie de A est dans B
     - Si une partie de B est dans A
 - (facultatif) Faire un début de sortie
+- Régler le cas hisea
 
 ## DONE
 
@@ -37,8 +38,8 @@
 Créer une classe qui garde les informations importantes
 
 - Table de hash qui avec A > Tous les overlaps de A
-- Table [Read A] [Read B] > Objet contenant l'overlap
-- Table[Read B][Read A] = table [Read A][Read B]
+- Table [Read A][Read B] > Tableau d'objets contenant l'overlap
+- Table[Read B][Read A] = Table[Read A][Read B]
 - Fonction de hash :
 
     - "1" -> 56
@@ -50,8 +51,8 @@ Créer une classe qui garde les informations importantes
 #### Attributs
 
 - filename : nom du fichier
-- id_A : id du read A (int)
-- id_B : id du read B (int)
+- id_A : id du read A
+- id_B : id du read B
 - length_A : longueur de la séquence A
 - length_B : longueur de la séquence B
 - start_A : indice de début de A

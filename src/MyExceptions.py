@@ -9,3 +9,6 @@ class NotImplementedMethodError(Exception):
 
 class NotYetImplementedError(Exception):
     pass
+
+class BadFormatFileError(Exception):
+    pass

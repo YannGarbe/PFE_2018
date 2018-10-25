@@ -3,7 +3,7 @@
 class Interval :
 
     def __init__(self, filename, id_A, id_B, 
-    start_A, start_B, end_A, end_B):
+    length_A, length_B, start_A, start_B, end_A, end_B):
         """Initiate the class with the given informations
         
         
@@ -11,6 +11,8 @@ class Interval :
             filename : the name of the file
             id_A : the id of the Read A
             id_B : the id of the Read B
+            length_A : the length of A
+            length_B : the length of B
             start_A : the start index of the Read A overlapped sequence
             start_B : the start index of the Read B overlapped sequence
             end_A : the end index of the Read A overlapped sequence
@@ -21,6 +23,9 @@ class Interval :
         self.id_A = id_A
         self.id_B = id_B
         
+        self.length_A = length_A
+        self.length_B = length_B
+
         self.start_A = start_A
         self.start_B = start_B
 
@@ -42,6 +47,14 @@ class Interval :
 
     #---------------------------
 
+    def getLength_A(self):
+        return self.length_A
+    
+    def getLength_B(self):
+        return self.length_B
+
+    #---------------------------
+
     def getStart_A(self):
         return self.start_A
     
@@ -60,6 +73,7 @@ class Interval :
 
     def toStringInterval(self):
         return ""+self.filename+": [id_A] > "+self.id_A+"| [id_B] > "+self.id_B+ \
+        "| [Length_A] > "+self.length_A+"| [Length_B] > "+self.length_B+ \
         "| [Start_A] > "+self.start_A+"| [Start_B] > "+self.start_B+ \
         "| [End_A] > "+self.end_A+"| [End_B] > "+self.end_B
 
