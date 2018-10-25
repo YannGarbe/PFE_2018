@@ -3,3 +3,9 @@ class BadExtensionError(Exception):
 
 class FileNotFoundError(Exception):
     pass
+
+class NotImplementedMethodError(Exception):
+    pass
+
+class NotYetImplementedError(Exception):
+    pass
