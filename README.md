@@ -10,11 +10,6 @@
 
 ## TODO
 
-- Ajouter la longueur des séquences dans l'intervalle `OK`
-- Faire tableau d'intervalles au lieu d'un intervalle aux données correspondantes (dans la hashmap) `OK`
-- Vérifier que architecture est adaptée tests d'isolation, la modifier en conséquences
-- (facultatif) Faire des tests
-
 ### Pour la prochaine séance
 
 - Faire une première analyse :
@@ -59,3 +54,15 @@ Créer une classe qui garde les informations importantes
 - start_B : indice de début de B
 - end_A : indice de fin de A
 - end_B : indice de fin de B
+
+## Quelques idées supplémentaire
+
+### Type de fichier générique
+
+Avoir un type de fichier input générique, ce qui permet une meilleure modularité ainsi qu'une diminution de la redondance du code.
+
+Récupération d'un fichier "bibliothèque" qui contient les formats + champs des fichiers acceptés
+
+Pour chaque fichier d'input :
+
+- Vérification que son type fait bien partie des fichiers acceptés

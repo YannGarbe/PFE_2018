@@ -13,6 +13,7 @@ class ReadFiles:
             filespath : the file array containing the files' path
         """
         dictData = {}
+        
         for filepath in filespath:
             tmp_data = self.readAFile(filepath, dictData)
 
