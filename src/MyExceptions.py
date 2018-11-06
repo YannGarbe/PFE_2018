@@ -1,4 +1,4 @@
-class BadExtensionError(Exception):
+class UnknownExtensionError(Exception):
     pass
 
 class FileNotFoundError(Exception):
@@ -11,4 +11,7 @@ class NotYetImplementedError(Exception):
     pass
 
 class BadFormatFileError(Exception):
+    pass
+
+class BadFormatConfigAllowedFileTypesError(Exception):
     pass

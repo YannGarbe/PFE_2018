@@ -18,10 +18,10 @@ def main(args):
 
     
     #readFiles.ExtractMhapData(parser.files[0])
-    readFiles.readAFile({}, parser.files[0])
+    #readFiles.readAFile({}, parser.files[0])
     
 
-    #dictData = readFiles.ReadAllFiles(parser.files)
+    dictData = readFiles.readAllFiles(parser.files, "../allowed_files.csv")
 
 
 # Need this to run the main function

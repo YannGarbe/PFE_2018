@@ -43,10 +43,6 @@ class Parameters:
 
         #For each file's path in the file path array
         for file in filespath:
-            #If the file's extension isn't mhap, hisea or paf, raise an error
-            if not(file.endswith('mhap') or file.endswith('hisea') or file.endswith('paf')):
-                raise BadExtensionError(file + " : Bad extension. Must be '.mhap', '.pad' or '.hisea'")
-        
             #If the file's path is wrong, or the file doesn't exist, raise an error
             if not(os.path.isfile(file)):
                 raise FileNotFoundError(file + " : Not Found")
