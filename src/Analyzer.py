@@ -1,6 +1,7 @@
 import sys
 from Parameters import Parameters
 from ReadFiles import ReadFiles
+from Iterator import *
 
 class Analyzer:
     pass
@@ -10,6 +11,7 @@ def main(args):
     
     parameters = Parameters()
     readFiles = ReadFiles()
+    iterator = Iterator()
     parser = parameters.complete_analyze(sys.argv[1:])
     
     #dict = { 'Coucou': ['1', '2', '3', '4']}
@@ -21,8 +23,9 @@ def main(args):
     #readFiles.readAFile({}, parser.files[0])
     
 
-    dictData = readFiles.readAllFiles(parser.files, "../allowed_files.csv")
-
+    dict_data = readFiles.readAllFiles(parser.files, "../allowed_files.csv")
+    #iterator.detect_overlaps(dict_data)
+    print(iterator.statistics(dict_data, len(parser.files)))
 
 # Need this to run the main function
 if __name__ == "__main__":

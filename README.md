@@ -12,14 +12,20 @@
 
 ### Pour la prochaine séance
 
-- Faire une première analyse :
-    - Si A est dans B
-    - Si B est dans A
-    - Si une partie de A est dans B
-    - Si une partie de B est dans A
-- (facultatif) Faire un début de sortie
-- Régler le cas hisea
+- Ajouter un paramètre dans le programme :
+    - "--strict" : n'accepte l'intervalles que si tous les overlappers sont d'accord (création d'un intervalle qui unifie les intervalles )
+    - "--cool" : accepte tous les intervalles (création d'un intervalle qui unifie les intervalles)
+    - Par défaut, le programme est "--cool"
 
+- Ajouter un paramètre "--stats" qui permet d'afficher quelques informations dans le terminal :
+    - La moyenne d'intervalles entre les fichiers d'entrée
+    - La moyenne d'intervalles cohérent entre les fichiers d'entrée
+    - La moyenne d'intervalles venant du même fichier
+
+- Avant de commencer, trier les intervalles par start_A croissant
+
+- Avoir une sortie en fichier paf
+ 
 ## DONE
 
 - Faire des recherches sur les hashMap

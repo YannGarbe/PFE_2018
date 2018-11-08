@@ -69,6 +69,43 @@ class Interval :
     def getEnd_B(self):
         return self.end_B
 
+#===========================Setters========================================
+    
+    def setFilename(self, filename):
+        self.filename = filename
+    
+    #---------------------------
+
+    def setId_A(self, id_A):
+        self.id_A = id_A
+
+    def setId_B(self, id_B):
+        self.id_B = id_B
+
+    #---------------------------
+
+    def setLength_A(self, length_A):
+        self.length_A = length_A
+    
+    def setLength_B(self, length_B):
+        self.length_B = length_B
+
+    #---------------------------
+
+    def setStart_A(self, start_A):
+        self.start_A = start_A
+    
+    def setStart_B(self, start_B):
+        self.start_B = start_B
+
+    #---------------------------
+
+    def setEnd_A(self, end_A):
+        self.end_A = end_A
+    
+    def setEnd_B(self, end_B):
+        self.end_B = end_B
+
     #==============================================================
 
     def toStringInterval(self):
