@@ -25,7 +25,7 @@ def main(args):
 
     dict_data = readFiles.readAllFiles(parser.files, "../allowed_files.csv")
     #iterator.detect_overlaps(dict_data)
-    print(iterator.statistics(dict_data, len(parser.files)))
+    print(iterator.statistics(dict_data, parser.files))
 
 # Need this to run the main function
 if __name__ == "__main__":
