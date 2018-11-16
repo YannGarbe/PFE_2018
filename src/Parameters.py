@@ -26,6 +26,9 @@ class Parameters:
         """
         parser = argparse.ArgumentParser(
             description="Analyze Overlappers' results.")
+        parser.add_argument("analysis", metavar="Analysis_Type", default="gentle", choices=["gentle", "strict"],
+                            help="The type of the analysis. 'gentle' allows all the possible informations. 'strict' allows the informations only if every overlappers are agree to ach other.")
+        parser.add_argument('-s', '--stats', action='store_true')
         parser.add_argument("output", metavar="Output_Type", default="mhap", choices=["hisea", "mhap", "paf"],
                             help="The extension of the created output file. It can be either 'hisea', 'mhap' or 'paf'")
         parser.add_argument("files", metavar="Input_Result_Files", nargs="+",
@@ -41,9 +44,9 @@ class Parameters:
             files: An Array containing the file's names
         """
 
-        #For each file's path in the file path array
+        # For each file's path in the file path array
         for file in filespath:
-            #If the file's path is wrong, or the file doesn't exist, raise an error
+            # If the file's path is wrong, or the file doesn't exist, raise an error
             if not(os.path.isfile(file)):
                 raise FileNotFoundError(file + " : Not Found")
         """Return the files' array"""

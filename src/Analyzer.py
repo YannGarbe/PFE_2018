@@ -22,10 +22,11 @@ def main(args):
     #readFiles.ExtractMhapData(parser.files[0])
     #readFiles.readAFile({}, parser.files[0])
     
+    print(parser)
 
-    dict_data = readFiles.readAllFiles(parser.files, "../allowed_files.csv")
+    #dict_data = readFiles.readAllFiles(parser.files, "../allowed_files.csv")
     #iterator.detect_overlaps(dict_data)
-    print(iterator.statistics(dict_data, parser.files))
+    #print(iterator.statistics(dict_data, parser.files))
 
 # Need this to run the main function
 if __name__ == "__main__":

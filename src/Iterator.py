@@ -98,47 +98,6 @@ class Iterator:
                     
                 list_dict_total.append(dict_total)
                 
-                """
-                intervals = dict_data[id_a][in_b]
-                map_duplicate = {}
-
-                if avg_total == 0.00:
-                        avg_total = float(len(intervals))
-                        avg_coherent = (float(len(intervals)) / nb_input_files)
-
-                else :
-                    avg_total += float(len(intervals))
-                    avg_coherent += (float(len(intervals)) / nb_input_files)
-                    avg_total = avg_total / 2
-                    avg_coherent = avg_coherent / 2
-                
-                for i_interval in intervals :
-                    if i_interval.getFilename() not in map_duplicate:
-                        map_duplicate[i_interval.getFilename()] = 1
-                    else:
-                        map_duplicate[i_interval.getFilename()] = map_duplicate[i_interval.getFilename()] + 1
-                """
-
-                
-
-                """
-                if len(intervals) == 1 :
-                    
-                    if avg_total == 0.00:
-                        avg_total = (1.00 / nb_input_files)
-                        avg_coherent = (1.00 / nb_input_files)
-                    else :
-                        avg_total += (1.00 / nb_input_files)
-                        avg_coherent += (1.00 / nb_input_files)
-                        avg_total = avg_total / 2
-                        avg_coherent = avg_coherent / 2
-                """
-        
-        """
-        report = ("Moyenne totale d'intervalles par read : " + str(avg_total) + "\n" #+ dict_total + ""
-        "avg_coherent " + str(avg_coherent) + "\n" #+ dict_coherent + ""
-        "avg_duplicate " + str(avg_duplicate) + "\n") #+ dict_duplicate + "")
-        """
         file_type_str = ""
         for fileType in known_types :
             file_type_str += fileType + " | "
