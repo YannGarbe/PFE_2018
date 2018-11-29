@@ -2,6 +2,7 @@ import sys
 from Parameters import Parameters
 from ReadFiles import ReadFiles
 from Iterator import *
+from IteratorTools import *
 
 class Analyzer:
     pass
@@ -22,11 +23,27 @@ def main(args):
     #readFiles.ExtractMhapData(parser.files[0])
     #readFiles.readAFile({}, parser.files[0])
     
-    print(parser)
 
-    #dict_data = readFiles.readAllFiles(parser.files, "../allowed_files.csv")
+    dict_data = readFiles.readAllFiles(parser.files, "../allowed_files.csv")
     #iterator.detect_overlaps(dict_data)
-    #print(iterator.statistics(dict_data, parser.files))
+    
+
+    tools = IteratorTools()
+
+    for i_interval in tools.sort_Intervals_start(dict_data['1']['6696'], True):
+        print(i_interval.toStringInterval())
+    print("=============================")
+    
+    dict_data = iterator.gentle_detection(dict_data)
+
+    print("=============================")
+    for i_interval in dict_data['1']['6696']:
+        print(i_interval.toStringInterval())
+
+
+    # If the stat option is enabled, print some statistics about the files
+    if parser.stats is True :
+        print(iterator.statistics(dict_data, parser.files))
 
 # Need this to run the main function
 if __name__ == "__main__":
