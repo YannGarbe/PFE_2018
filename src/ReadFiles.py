@@ -8,7 +8,7 @@ from MyExceptions import NotYetImplementedError
 class ReadFiles:
 
     def readAllFiles(self, filespath, config_filepath):
-        """Read each files in given the file array and store it in a double hashmap
+        """Read each files in given the file array and store it in a triple hashmap
 
         Attributes:
             filespath : the file array containing the files' path
@@ -26,7 +26,7 @@ class ReadFiles:
             reader = csv.reader(f_config, delimiter=",")
             #For each line, store it in the config_data
             for _, line in enumerate(reader):
-                if len(line) != 11:
+                if len(line) != 14:
                     raise BadFormatConfigAllowedFileTypesError()
                 config_data.append(line)
         
@@ -34,17 +34,17 @@ class ReadFiles:
         for filepath in filespath:
             tmp_data = self.readAFile(dict_data, filepath, config_data)
 
-        """Return the double hashmap containing the data of all the files"""
+        """Return the triple hashmap containing the data of all the files"""
         return dict_data
 
     def readAFile(self, dict_data, filepath, config_data):
         """Read a 'hisea', 'paf' or 'mhap' file and store its data 
-        in a double hashmap (dictionnary in python)
+        in a triple hashmap (dictionnary in python)
         
         
         Attributes:
             filepath : the file's path
-            dict_data : the double hashmap
+            dict_data : the triple hashmap
             config_data : config data describing the allowed file types
         """
         extension = filepath.split(".")[-1]

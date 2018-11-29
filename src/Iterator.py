@@ -1,4 +1,5 @@
 import sys
+import math
 from collections import defaultdict
 from Parameters import Parameters
 from ReadFiles import ReadFiles
@@ -124,10 +125,10 @@ class Iterator:
         pass
     
     def statistics(self, dict_data, filespath):
-        """Iterates through the double hashmap of itervals to make some statistics.
+        """Iterates through the triple hashmap of itervals to make some statistics.
         
         Attributes:
-            dict_data : the double hashmap containing the itervals of the overlappers
+            dict_data : the triple hashmap containing the itervals of the overlappers
             nb_input_files : the number of the input files 
         """
         nb_intervals = 0
@@ -192,6 +193,7 @@ class Iterator:
         "\tKnown file types = " + file_type_str + "\n\n"
         
         "\tAvg of intervals per overlap = " + str(sum(avg_total_list)/len(avg_total_list)) + "\n"
+        "\tDependance of percentage of the analysis = " + str(math.floor( (((sum(avg_total_list)/len(avg_total_list))-1 ) / len(filespath) )* 100) )  + "%\n"
         "=========================================================\n"
         "Per file >>>\n"
         )

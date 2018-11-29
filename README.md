@@ -20,6 +20,7 @@
     - Par défaut, le programme est "--gentle"
 
 - Avoir une sortie en fichier paf
+- Refaire tous les tests
 
 ### Précis
 
