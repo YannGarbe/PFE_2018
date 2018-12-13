@@ -1,12 +1,14 @@
 
-"""This class store the overlap informations between two reads, A and B"""
-class Interval :
+"""self class store the overlap informations between two reads, A and B"""
 
-    def __init__(self, filename, id_A, id_B, strand, 
+
+class Interval:
+
+    def __init__(self, filename, id_A, id_B, strand,
     length_A, length_B, start_A, start_B, end_A, end_B):
         """Initiate the class with the given informations
-        
-        
+
+
         Attritbutes:
             filename : the name of the file
             id_A : the id of the Read A
@@ -25,7 +27,7 @@ class Interval :
         self.id_B = id_B
 
         self.strand = strand
-        
+
         self.length_A = length_A
         self.length_B = length_B
 
@@ -35,12 +37,12 @@ class Interval :
         self.end_A = end_A
         self.end_B = end_B
 
-    #===========================Getters========================================
-    
+    # ===========================Getters========================================
+
     def getFilename(self):
         return self.filename
-    
-    #---------------------------
+
+    # ---------------------------
 
     def getId_A(self):
         return self.id_A
@@ -48,41 +50,41 @@ class Interval :
     def getId_B(self):
         return self.id_B
 
-    #---------------------------
+    # ---------------------------
 
     def getStrand(self):
         return self.strand
 
-    #---------------------------
+    # ---------------------------
 
     def getLength_A(self):
         return self.length_A
-    
+
     def getLength_B(self):
         return self.length_B
 
-    #---------------------------
+    # ---------------------------
 
     def getStart_A(self):
         return self.start_A
-    
+
     def getStart_B(self):
         return self.start_B
 
-    #---------------------------
+    # ---------------------------
 
     def getEnd_A(self):
         return self.end_A
-    
+
     def getEnd_B(self):
         return self.end_B
 
-#===========================Setters========================================
-    
+# ===========================Setters========================================
+
     def setFilename(self, filename):
         self.filename = filename
-    
-    #---------------------------
+
+    # ---------------------------
 
     def setId_A(self, id_A):
         self.id_A = id_A
@@ -90,42 +92,79 @@ class Interval :
     def setId_B(self, id_B):
         self.id_B = id_B
 
-    #---------------------------
+    # ---------------------------
 
     def setStrand(self, strand):
         self.strand = strand
 
-    #---------------------------
+    # ---------------------------
 
     def setLength_A(self, length_A):
         self.length_A = length_A
-    
+
     def setLength_B(self, length_B):
         self.length_B = length_B
 
-    #---------------------------
+    # ---------------------------
 
     def setStart_A(self, start_A):
         self.start_A = start_A
-    
+
     def setStart_B(self, start_B):
         self.start_B = start_B
 
-    #---------------------------
+    # ---------------------------
 
     def setEnd_A(self, end_A):
         self.end_A = end_A
-    
+
     def setEnd_B(self, end_B):
         self.end_B = end_B
 
-    #==============================================================
+    # ==============================================================
+
+    def compareAndFusion_gentle(self, other_interval):
+        # Tmp
+
+        if other_interval.getId_A() == 1 and other_interval.getId_B() == 6696:
+            print(self.getEnd_A(), " VS ", other_interval.getStart_A(), " Du coup : ", self.getEnd_A() >= other_interval.getStart_A())
+        
+        
+        if self.getEnd_A() == other_interval.getStart_A():
+
+            if other_interval.getId_A() == 1 and other_interval.getId_B() == 6696:
+                print("COUCOU")
+
+            if (self.getEnd_B() >= other_interval.getStart_B()) or (self.getStart_B() <= other_interval.getEnd_B()):
+
+                if other_interval.getId_A() == 1 and other_interval.getId_B() == 6696:
+                    print("AVANT INTERVAL ", self.toStringInterval())
+
+                self.setStart_A(
+                min(self.getStart_A(), other_interval.getStart_A()))
+                self.setStart_B(
+                min(self.getStart_B(), other_interval.getStart_B()))
+
+                self.setEnd_A(
+                max(self.getEnd_A(), other_interval.getEnd_A()))
+                self.setEnd_B(
+                max(self.getEnd_B(), other_interval.getEnd_B()))
+
+                if other_interval.getId_A() == 1 and other_interval.getId_B() == 6696:
+                    print("APRES INTERVAL ",
+                            self.toStringInterval())
+            else:
+                pass
+                # new_intervals.append(other_interval)
+        else:
+            pass
+            # new_intervals.append(other_interval)
+
+    # ==============================================================
 
     def toStringInterval(self):
-        return ""+self.filename+": [id_A] : "+self.id_A+"| [id_B] : "+self.id_B+ \
-        "| [Strand] : "+self.strand+"| [Length_B] : "+self.length_B+ \
-        "| [Length_A] : "+self.length_A+"| [Length_B] : "+self.length_B+ \
-        "| [Start_A] : "+self.start_A+"| [Start_B] : "+self.start_B+ \
-        "| [End_A] : "+self.end_A+"| [End_B] : "+self.end_B
-
-    
+        return ""+self.filename+": [id_A] : "+str(self.id_A)+"| [id_B] : "+str(self.id_B) + \
+        "| [Strand] : "+str(self.strand)+"| [Length_B] : "+str(self.length_B) + \
+        "| [Length_A] : "+str(self.length_A)+"| [Length_B] : "+str(self.length_B) + \
+        "| [Start_A] : "+str(self.start_A)+"| [Start_B] : "+str(self.start_B) + \
+        "| [End_A] : "+str(self.end_A)+"| [End_B] : "+str(self.end_B)

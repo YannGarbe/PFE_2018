@@ -55,70 +55,36 @@ class Iterator:
         tools = IteratorTools()
         for id_a in dict_data:
             for id_b in dict_data[id_a]:
-                intervals = dict_data[id_a][id_b]
-                if len(intervals) > 1:
-                    intervals = tools.sort_Intervals_start(intervals, True)
+                for strand in dict_data[id_a][id_b]:
+                    intervals = dict_data[id_a][id_b][strand]
+                    if len(intervals) > 1:
+                        intervals = tools.sort_Intervals_start(intervals, True)
 
-                    # Plusieurs points :
-                    #   > Pour qu'une fusion soit accepté, il faut que les deux intervalles
-                    #       soit cohérents au niveau du read A et du read B
-                    #   > Si deux intervalles sont cohérent uniquement pour le read A et non pour le read B
-                    #       ne pas le prendre en compte
-                    #   > Si deux intervalles viennent du même fichier, on calcul chacun l'intervalle le plus grand.
-                    #       On prend seulement le plus grand
-                    #   > Pas le cas ici (gerer le cas ou le premier interval n'est pas le bon)
-                    interval_max = intervals[0]
-                    #Retrieves the first element of the list and moves it away
-                    new_intervals = []
-                    del intervals[0]
-
-                    #Loop until the list is empty
-                    while len(intervals) > 0:
-                        tmp_interval = intervals[0]
+                        # Plusieurs points :
+                        #   > Pour qu'une fusion soit accepté, il faut que les deux intervalles
+                        #       soit cohérents au niveau du read A et du read B
+                        #   > Si deux intervalles sont cohérent uniquement pour le read A et non pour le read B
+                        #       ne pas le prendre en compte
+                        #   > Si deux intervalles viennent du même fichier, on calcul chacun l'intervalle le plus grand.
+                        #       On prend seulement le plus grand
+                        #   > Pas le cas ici (gerer le cas ou le premier interval n'est pas le bon)
+                        interval_max = intervals[0]
+                        #Retrieves the first element of the list and moves it away
+                        new_intervals = []
                         del intervals[0]
 
-                        
-                        #(test)
-                        
-                        if id_a == '1' and id_b == '6696':
-                            print("=-=")
-                            for i_interval in dict_data['1']['6696']:
-                                print(i_interval.toStringInterval())
+                        #Loop until the list is empty
+                        while len(intervals) > 0:
+                            tmp_interval = intervals[0]
+                            del intervals[0]
+
                             
-                            print(interval_max.getEnd_A(), " VS ", tmp_interval.getStart_A(), " Du coup : ", interval_max.getEnd_A() >= tmp_interval.getStart_A())
-
-                        #Beginning of the interval fusion
-                        if interval_max.getEnd_A() >= tmp_interval.getStart_A():
+                            #(test)
+                            
+                            interval_max.compareAndFusion_gentle(tmp_interval)
+                        new_intervals.append(interval_max)
                         
-                            if id_a == '1' and id_b == '6696':
-                                print("COUCOU")
-    
-                            if (interval_max.getEnd_B() >= tmp_interval.getStart_B()) or (interval_max.getStart_B() <= tmp_interval.getEnd_B()):
-                                
-                                if id_a == '1' and id_b == '6696':
-                                    print("AVANT INTERVAL ", interval_max.toStringInterval())
-                                
-                                interval_max.setStart_A(
-                                   min(interval_max.getStart_A(), tmp_interval.getStart_A()))
-                                interval_max.setStart_B(
-                                   min(interval_max.getStart_B(), tmp_interval.getStart_B()))
-
-                                interval_max.setEnd_A(
-                                   max(interval_max.getEnd_A(), tmp_interval.getEnd_A()))
-                                interval_max.setEnd_B(
-                                   max(interval_max.getEnd_B(), tmp_interval.getEnd_B()))
-
-                                if id_a == '1' and id_b == '6696':
-                                    print("APRES INTERVAL ", interval_max.toStringInterval())
-                            else:
-                                pass
-                                #new_intervals.append(tmp_interval)
-                        else:
-                            pass
-                            #new_intervals.append(tmp_interval)       
-                    new_intervals.append(interval_max)
-                    
-                    dict_data[id_a][id_b] = new_intervals
+                        dict_data[id_a][id_b][strand] = new_intervals
 
         return dict_data              
 

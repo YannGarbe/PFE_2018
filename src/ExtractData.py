@@ -64,11 +64,11 @@ class ExtractData :
 
         #Create an interval according to the config_file_type informations (which were in the allowed_files.csv file)
         tmp_interval = Interval(filename,
-        line[int(config_file_type[3])], line[int(config_file_type[4])],
+        int(line[int(config_file_type[3])]), int(line[int(config_file_type[4])]),
         strand,
-        line[int(config_file_type[5])], line[int(config_file_type[6])], 
-        line[int(config_file_type[7])], line[int(config_file_type[8])], 
-        line[int(config_file_type[9])], line[int(config_file_type[10])])
+        int(line[int(config_file_type[5])]), int(line[int(config_file_type[6])]), 
+        int(line[int(config_file_type[7])]), int(line[int(config_file_type[8])]), 
+        int(line[int(config_file_type[9])]), int(line[int(config_file_type[10])]))
         
 
         #if 'read A' not in dict_data

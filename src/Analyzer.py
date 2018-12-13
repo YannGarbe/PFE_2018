@@ -34,7 +34,7 @@ def main(args):
         print(i_interval.toStringInterval())
     print("=============================")
     
-    #dict_data = iterator.gentle_detection(dict_data)
+    dict_data = iterator.gentle_detection(dict_data)
 
     print("=============================")
     for i_interval in dict_data['1']['6696']['+']:
