@@ -30,14 +30,14 @@ def main(args):
 
     tools = IteratorTools()
 
-    for i_interval in tools.sort_Intervals_start(dict_data['1']['6696'], True):
+    for i_interval in tools.sort_Intervals_start(dict_data['1']['6696']['+'], True):
         print(i_interval.toStringInterval())
     print("=============================")
     
     #dict_data = iterator.gentle_detection(dict_data)
 
     print("=============================")
-    for i_interval in dict_data['1']['6696']:
+    for i_interval in dict_data['1']['6696']['+']:
         print(i_interval.toStringInterval())
 
 

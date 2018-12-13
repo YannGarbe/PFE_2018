@@ -13,7 +13,7 @@
 ### Général
 
 - Ajouter un attribut aux intervalles : l'orientation (0 : normal | 1 : inversé) *
-- **Retransformer toute l'architecture en faisant une triple hashmap (id_A, id_B, orientation)** *
+
 - Ajouter un paramètre dans le programme :
     - "--strict" : n'accepte l'intervalles que si tous les overlappers sont d'accord (création d'un intervalle qui unifie les intervalles en prenant l'intervalle le plus grand)
     - "--gentle" : accepte tous les intervalles (création d'un intervalle qui unifie les intervalles en prenant l'intervalle le plus petit)
@@ -24,7 +24,6 @@
 
 ### Précis
 
-- Ajouter une information de statistique qui utilise la moyenne d'intervalles et la divise par le nombre d'overlappeurs * 
 - Utiliser une boucle avec un pop
 - Ajouter une fonction  dans la classe intervalle qui prend en entrée deux entiers et qui ressord le fond si les intervalles sont corrects
 
@@ -32,11 +31,12 @@
 
 - Faire des recherches sur les hashMap
 - Créer un objet interval
-- Utilisation d'une double hashmap
+- Utilisation d'une triple hashmap
 
 - Trier les intervalles par start_A croissant
 
 - Ajouter un paramètre "--stats" qui permet d'afficher quelques informations dans le terminal :
+    - Le pourcentage de dépendances entre les fichiers de données
     - La moyenne d'intervalles entre les fichiers d'entrée
     - La moyenne d'intervalles cohérent entre les fichiers d'entrée
     - La moyenne d'intervalles venant du même fichier

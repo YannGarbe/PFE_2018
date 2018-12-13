@@ -44,11 +44,12 @@ class Iterator:
         """
         for id_a in dict_data:
             for id_b in dict_data[id_a]:
-                intervals = dict_data[id_a][id_b]
-                if strict is True:
-                    pass
-                else:
-                    pass
+                for strand in dict_data[id_a][id_b]:
+                    intervals = dict_data[id_a][id_b][strand]
+                    if strict is True:
+                        pass
+                    else:
+                        pass
 
     def gentle_detection(self, dict_data):
         tools = IteratorTools()
@@ -152,48 +153,55 @@ class Iterator:
         
         for id_a in dict_data:
             for id_b in dict_data[id_a]:
-                list_duplicate = []
-                dict_total = {}
+                for strand in dict_data[id_a][id_b]:
+                    list_duplicate = []
+                    dict_total = {}
 
-                intervals = dict_data[id_a][id_b]
+                    intervals = dict_data[id_a][id_b][strand]
 
-                # Count the number of "connections" between two read 2
-                nb_connections += 1
+                    # Count the number of "connections" between two read 2
+                    nb_connections += 1
 
-                # Process the avg intervals per overlap
-                avg_total_list.append(float(len(intervals)))
+                    # Process the avg intervals per overlap
+                    avg_total_list.append(float(len(intervals)))
 
-                # Iterate through found intervals
-                for i_interval in intervals :
+                    # Iterate through found intervals
+                    for i_interval in intervals :
 
-                    i_extension = i_interval.getFilename().split(".")[-1]
+                        i_extension = i_interval.getFilename().split(".")[-1]
 
-                    # Count the number of intervals
-                    nb_intervals += 1
+                        # Count the number of intervals
+                        nb_intervals += 1
 
-                    # Analyse if the extension is known
-                    if i_extension not in known_types:
-                        known_types.append(i_extension)
-
-                    if i_interval.getFilename() not in dict_total:
-                        dict_total[i_interval.getFilename()] = 1.00
-                    else:
-                        dict_total[i_interval.getFilename()] += 1.00
-                    
-                list_dict_total.append(dict_total)
+                        # Analyse if the extension is known
+                        if i_extension not in known_types:
+                            known_types.append(i_extension)
+                        
+                        # Check if 
+                        if i_interval.getFilename() not in dict_total:
+                            dict_total[i_interval.getFilename()] = 1.00
+                        else:
+                            dict_total[i_interval.getFilename()] += 1.00
+                        
+                    list_dict_total.append(dict_total)
                 
         file_type_str = ""
         for fileType in known_types :
             file_type_str += fileType + " | "
 
         # Create the first part of the report (general part)
+
+        if (len(filespath) == 1):
+            dep_percent = math.floor( (((sum(avg_total_list)/len(avg_total_list) ) / len(filespath))-1 )* 100) 
+        else:
+            dep_percent = math.floor( (((sum(avg_total_list)/len(avg_total_list)) -1) / (len(filespath)-1) )* 100) 
         report = ("Report of the program data >>>\n"
-        "\tTotal different connections between two reads = " + str(nb_connections) + "\n"
+        "\tNumber of times there is at least one interval between two reads = " + str(nb_connections) + "\n"
         "\tTotal intervals = " + str(nb_intervals) + "\n"
         "\tKnown file types = " + file_type_str + "\n\n"
         
         "\tAvg of intervals per overlap = " + str(sum(avg_total_list)/len(avg_total_list)) + "\n"
-        "\tDependance of percentage of the analysis = " + str(math.floor( (((sum(avg_total_list)/len(avg_total_list))-1 ) / len(filespath) )* 100) )  + "%\n"
+        "\tDependance of percentage of the analysis = " + str(dep_percent)  + "%\n"
         "=========================================================\n"
         "Per file >>>\n"
         )
