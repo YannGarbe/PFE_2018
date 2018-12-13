@@ -49,8 +49,8 @@
 Créer une classe qui garde les informations importantes
 
 - Table de hash qui avec A > Tous les overlaps de A
-- Table [Read A][Read B] > Tableau d'objets contenant l'overlap
-- Table[Read B][Read A] = Table[Read A][Read B]
+- Table [Read A][Read B][+] > Tableau d'objets contenant l'overlap
+- Table[Read B][Read A][+] = Table[Read A][Read B][+]
 - Fonction de hash :
 
     - "1" -> 56
@@ -64,6 +64,7 @@ Créer une classe qui garde les informations importantes
 - filename : nom du fichier
 - id_A : id du read A
 - id_B : id du read B
+- strand : '+' si les séquence sont dans la même orientation. '-' s'il ne le sont pas
 - length_A : longueur de la séquence A
 - length_B : longueur de la séquence B
 - start_A : indice de début de A
