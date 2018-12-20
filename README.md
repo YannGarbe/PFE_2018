@@ -16,16 +16,17 @@
 
 - Ajouter un paramètre dans le programme :
     - "--strict" : n'accepte l'intervalles que si tous les overlappers sont d'accord (création d'un intervalle qui unifie les intervalles en prenant l'intervalle le plus grand)
-    - "--gentle" : accepte tous les intervalles (création d'un intervalle qui unifie les intervalles en prenant l'intervalle le plus petit)
-    - Par défaut, le programme est "--gentle"
 
-- Avoir une sortie en fichier paf
-- Refaire tous les tests
+- QoL sur l'utilisation du programme
+- QoL pour éviter la dedondance de code
+- Faire une fusion des longueurs?
+- **Refaire tous les tests**
+
+- (remarque quand on a des exceptions relevées, bien indiquer au moins le fichier concerné.)
 
 ### Précis
 
 - Utiliser une boucle avec un pop
-- Ajouter une fonction  dans la classe intervalle qui prend en entrée deux entiers et qui ressord le fond si les intervalles sont corrects
 
 ## DONE
 
@@ -40,6 +41,13 @@
     - La moyenne d'intervalles entre les fichiers d'entrée
     - La moyenne d'intervalles cohérent entre les fichiers d'entrée
     - La moyenne d'intervalles venant du même fichier
+
+- Analyses :
+    - Type gentle ajouté
+
+- Sorties :
+    - Paf
+    - Mhap
 
 
 ## Infos complémentaires

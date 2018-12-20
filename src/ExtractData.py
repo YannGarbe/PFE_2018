@@ -23,7 +23,7 @@ class ExtractData :
             reader = csv.reader(f, delimiter=chr(int(config_file_type[1])))
             #For each line in the file, call the extract method
             for _, line in enumerate(reader):
-                self.verify_length(line, config_file_type[2])
+                self.verify_length(line, config_file_type[2], filename)
                 dict_data = self.extract(dict_data, line, filename, config_file_type)
 
         """Return the updated triple hashmap with the right informations"""
@@ -98,7 +98,7 @@ class ExtractData :
         
         return dict_data
 
-    def verify_length(self, line, nb_fields):
-        if len(line) != int(nb_fields):
-            raise BadFormatFileError()
+    def verify_length(self, line, nb_fields, filename):
+        if len(line) < int(nb_fields):
+            raise BadFormatFileError(filename + " : not enough fields.\nThe fields : " + str(line))
 

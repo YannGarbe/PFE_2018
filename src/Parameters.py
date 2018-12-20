@@ -6,7 +6,7 @@ from MyExceptions import *
 class Parameters:
     def complete_analyze(self, args):
         """Verify the arguments of the program
-        Step 1 : Parse the arguments
+        Step 1: Parse the arguments
         Step 2: Verify the files' location and extension
 
         Attributes
@@ -26,12 +26,12 @@ class Parameters:
         """
         parser = argparse.ArgumentParser(
             description="Analyze Overlappers' results.")
-        parser.add_argument("analysis", metavar="Analysis_Type", default="gentle", choices=["gentle", "strict"],
+        parser.add_argument("analysis", metavar="AnalysisType", default="gentle", choices=["gentle", "strict"],
                             help="The type of the analysis. 'gentle' allows all the possible informations. 'strict' allows the informations only if every overlappers are agree to ach other.")
         parser.add_argument('-s', '--stats', action='store_true')
-        parser.add_argument("output", metavar="Output_Type", default="mhap", choices=["hisea", "mhap", "paf"],
+        parser.add_argument("output", metavar="OutputType", default="mhap", choices=["hisea", "mhap", "paf"],
                             help="The extension of the created output file. It can be either 'hisea', 'mhap' or 'paf'")
-        parser.add_argument("files", metavar="Input_Result_Files", nargs="+",
+        parser.add_argument("files", metavar="InputFiles", nargs="+",
                             help="The files of the overlappers's results")
 
         """Returns the parsed Args"""

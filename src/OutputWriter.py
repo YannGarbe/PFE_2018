@@ -1,11 +1,18 @@
 import datetime
 from IteratorTools import *
 
+"""This class writes the data dictionnary in a specific file (depending on the file type."""
 class OutputWriter:
 
     def outputMhap(self, dict_data):
+        """Write the data dictionnary (triple hashmap of intervals) in a mhap file
+        The file follows the mhap data structure
+
+        Attributes
+            dict_data: the data dictionnary  
+        """
         tools = IteratorTools()
-        file = open("../Output/Mhap-" + str(datetime.datetime.now().time()) + ".txt", "w")
+        file = open("../Output/Mhap-" + str(datetime.datetime.now().time()) + ".mhap", "w")
         for id_a in dict_data:
             for id_b in dict_data[id_a]:
                 for strand in dict_data[id_a][id_b]:
@@ -31,14 +38,20 @@ class OutputWriter:
                         "" + str(i_interval.getStart_B()) + " "
                         "" + str(i_interval.getEnd_B()) + " "
                         "" + str(i_interval.getLength_B()) + "\n")
-                        print(interval_line)
+                        
                         file.write(interval_line)
         file.close()
 
 
     def outputPaf(self, dict_data):
+        """Write the data dictionnary (triple hashmap of intervals) in a paf file
+        The file follows the paf data structure
+
+        Attributes
+            dict_data: the data dictionnary  
+        """
         tools = IteratorTools()
-        file = open("../Output/Paf-" + str(datetime.datetime.now().time()) + ".txt", "w")
+        file = open("../Output/Paf-" + str(datetime.datetime.now().time()) + ".paf", "w")
         for id_a in dict_data:
             for id_b in dict_data[id_a]:
                 for strand in dict_data[id_a][id_b]:
@@ -62,6 +75,5 @@ class OutputWriter:
                         "" + "/" + "\t"
                         "" + "/" + "\t"
                         "" + "/" + "\n")
-                        print(interval_line)
                         file.write(interval_line)
         file.close()

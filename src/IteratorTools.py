@@ -36,13 +36,5 @@ class IteratorTools:
             tmp_interval = intervals[i]
             intervals[i] = intervals[min_j]
             intervals[min_j] = tmp_interval
-
+        """Returns the sorted intervals"""
         return intervals
-    
-    """
-    def remove_duplicates(self, intervals):
-        intervals_A = self.sort_Intervals_start(intervals, True)
-        intervals_B = self.sort_Intervals_start(intervals, False)
-
-        fo
-    """

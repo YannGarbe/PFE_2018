@@ -34,11 +34,18 @@ def main(args):
 
     for i_interval in tools.sort_Intervals_start(dict_data['1']['6696']['+'], True):
         print(i_interval.toStringInterval())
+    
     print("=============================")
     
-    dict_data = iterator.gentle_detection(dict_data)
+    if parser.analysis == "gentle":
+        pass
+        dict_data = iterator.gentle_detection(dict_data)
+    else:
+        print("Strict method not implemented yet.")
+        exit(0)
 
     print("=============================")
+
     for i_interval in dict_data['1']['6696']['+']:
         print(i_interval.toStringInterval())
 
@@ -47,8 +54,13 @@ def main(args):
     if parser.stats is True :
         print(iterator.statistics(dict_data, parser.files))
 
-    outputWriter.outputMhap(dict_data)
-    outputWriter.outputPaf(dict_data)
+    if parser.output == "mhap":
+        outputWriter.outputMhap(dict_data)
+    elif parser.output == "paf":
+        outputWriter.outputPaf(dict_data)
+    else:
+        print("Hisea output not implemented yet.")
+        exit(0)
 
 # Need this to run the main function
 if __name__ == "__main__":

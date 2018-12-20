@@ -82,10 +82,9 @@ class Iterator:
                         #   > A. C C |
                         # C C A B
                         # 
-                        i_run = 0
                         i_max_run = len(intervals)
                         
-                        for i_run in range(0, i_max_run):
+                        for _ in range(0, i_max_run):
                         
                             interval_max = intervals[0]
                             #print(interval_max.toStringInterval())
@@ -121,27 +120,41 @@ class Iterator:
                         # > Cela implique que les intervals de doivent à la fois être regroupés 
                         #   et à la fois viennent d'une origine différente.
                         # Astuces :
-                        # > Par courrir deux fois le tableau. La première pour savoir s'il a des intervals possiblement regroupable,
-                        # la deuxième pour savoir s'il viennent bien d'origines différentes
-                        
-                        
-                        interval_max = intervals[0]
+                        # > Faire une fusion normale. Puis, vérifier que le nombre de fichiers différents est égal au nombre total de fichier
+                        #   Si c'est le cas, on garde la fusion. Sinon, ne garde pas la fusion.
+                        #   Tous les intervals hors fusion ne sont pas gardés.
+                        # Point de résistance :
+                        # > Comment gérer les groupes qui ne sont pas avec le premier intervalle?
+                        #   (il faudrait boucler, tant que la boucle n'est pas terminée, on garde le intervalles n'ayant pas fusionné).
+
+                        #interval_max = intervals[0]
                         #Retrieves the first element of the list and moves it away
                         new_intervals = []
-                        del intervals[0]
+                        curr_list_intervals = intervals
+                        #del intervals[0]
 
-                        #Loop until the list is empty
-                        while len(intervals) > 0:
-                            tmp_interval = intervals[0]
+                        i_max_run = len(intervals)
+                        for _ in range(0, i_max_run):
+                            curr_interval = intervals[0]
                             del intervals[0]
 
-                            
-                            #(test)
-                            
-                            if interval_max.compareAndFusion_gentle(tmp_interval) == 0:
-                                new_intervals.append(tmp_interval)
-                        new_intervals.append(interval_max)
-                        
+                            while len(intervals) > 0:
+                                pass    
+                            #Loop until the list is empty
+                            """
+                            while len(intervals) > 0:
+                                tmp_interval = intervals[0]
+                                del intervals[0]
+
+                                
+                                #(test)
+                                
+                                if interval_max.compareAndFusion_gentle(tmp_interval) == 0:
+                                    new_intervals.append(tmp_interval)
+                            new_intervals.append(interval_max)
+                            """
+
+                            intervals = curr_list_intervals
                         dict_data[id_a][id_b][strand] = new_intervals
 
         return dict_data              
