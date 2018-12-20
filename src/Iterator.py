@@ -68,6 +68,63 @@ class Iterator:
                         #   > Si deux intervalles viennent du même fichier, on calcul chacun l'intervalle le plus grand.
                         #       On prend seulement le plus grand
                         #   > Pas le cas ici (gerer le cas ou le premier interval n'est pas le bon)
+                        
+                        #Il faut reboucler tant que l'on a pas une fusion totale des choses.
+                        #A la fin de chaque boucle, tout ce qui n'a pas été fusionné ressort avant.
+                        # A B C C.
+                        #   > B C C. | A
+                        #   > C C. | A ? B
+                        #   > C C. B
+                        # B C C A
+                        #   > C C A. | B
+                        #   > C A. | B ? C
+                        #   > C A. C | B
+                        #   > A. C C |
+                        # C C A B
+                        # 
+                        i_run = 0
+                        i_max_run = len(intervals)
+                        
+                        for i_run in range(0, i_max_run):
+                        
+                            interval_max = intervals[0]
+                            #print(interval_max.toStringInterval())
+                            #Retrieves the first element of the list and moves it away
+                            new_intervals = []
+                            del intervals[0]
+
+                            #Loop until the list is empty
+                            while len(intervals) > 0:
+                                tmp_interval = intervals[0]
+                                del intervals[0]
+                                if interval_max.compareAndFusion_gentle(tmp_interval) == 0:
+                                    new_intervals.append(tmp_interval)
+                            new_intervals.append(interval_max)
+                            
+                            dict_data[id_a][id_b][strand] = new_intervals
+                            intervals = dict_data[id_a][id_b][strand]
+
+        return dict_data              
+
+    def strict_detection(self, dict_data):
+        tools = IteratorTools()
+        for id_a in dict_data:
+            for id_b in dict_data[id_a]:
+                for strand in dict_data[id_a][id_b]:
+                    intervals = dict_data[id_a][id_b][strand]
+                    if len(intervals) > 1:
+                        intervals = tools.sort_Intervals_start(intervals, True)
+
+                        # Points sur le Strict :
+                        # > A la différence du gentle, on ne prend que si tout les overlappeur ont
+                        #   trouvé un interval de ce type.
+                        # > Cela implique que les intervals de doivent à la fois être regroupés 
+                        #   et à la fois viennent d'une origine différente.
+                        # Astuces :
+                        # > Par courrir deux fois le tableau. La première pour savoir s'il a des intervals possiblement regroupable,
+                        # la deuxième pour savoir s'il viennent bien d'origines différentes
+                        
+                        
                         interval_max = intervals[0]
                         #Retrieves the first element of the list and moves it away
                         new_intervals = []
@@ -81,15 +138,13 @@ class Iterator:
                             
                             #(test)
                             
-                            interval_max.compareAndFusion_gentle(tmp_interval)
+                            if interval_max.compareAndFusion_gentle(tmp_interval) == 0:
+                                new_intervals.append(tmp_interval)
                         new_intervals.append(interval_max)
                         
                         dict_data[id_a][id_b][strand] = new_intervals
 
         return dict_data              
-
-    def strict_detection(self, dict_data):
-        pass
     
     def statistics(self, dict_data, filespath):
         """Iterates through the triple hashmap of itervals to make some statistics.
