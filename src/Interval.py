@@ -151,8 +151,10 @@ class Interval:
 
 
     def compareAndFusion_strict(self, other_interval):
-        # Tmp
-
+        # le but ici est, au lieu de vérifier et de fusionner au minimum en même temps,
+        #    on ajoute l'interval à unifier dans un tableau, MAIS ON AJOUTE LE MAXIMUM ! Comme ça on peut être à peut prêt sur de prendre toutes les valeurs. 
+        #    Une fois toutes les comparaisons faites, on fusionne le tout au minimal
+        # 
         #if other_interval.getId_A() == 1 and other_interval.getId_B() == 6696:
         #    print(self.getEnd_A(), " VS ", other_interval.getStart_A(), " Du coup : ", self.getEnd_A() >= other_interval.getStart_A())
         
@@ -176,7 +178,30 @@ class Interval:
         else:
             return 0
 
-    # ==============================================================
+    def equalsAndFusion_strict(self, other_interval):
+        if (self.getEnd_A() >= other_interval.getStart_A()) and (self.getStart_A() <= other_interval.getEnd_A()):
+
+            if (self.getEnd_B() >= other_interval.getStart_B()) and (self.getStart_B() <= other_interval.getEnd_B()):
+                if (self.getFilename() == other_interval.getFilename()):
+                    self.setStart_A(
+                    min(self.getStart_A(), other_interval.getStart_A()))
+                    self.setStart_B(
+                    min(self.getStart_B(), other_interval.getStart_B()))
+
+                    self.setEnd_A(
+                    max(self.getEnd_A(), other_interval.getEnd_A()))
+                    self.setEnd_B(
+                    max(self.getEnd_B(), other_interval.getEnd_B()))
+                    return 1
+                else:
+                    return 0
+            else:
+                return 0
+        else:
+            return 0
+
+
+    # ============================================================== 
 
     def toStringInterval(self):
         return ""+self.filename+": [id_A] : "+str(self.id_A)+"| [id_B] : "+str(self.id_B) + \

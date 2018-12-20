@@ -137,10 +137,15 @@ class Iterator:
                         for _ in range(0, i_max_run):
                             curr_interval = intervals[0]
                             del intervals[0]
-
+                            interval_file_names = []
                             while len(intervals) > 0:
-                                pass    
-                            #Loop until the list is empty
+                                tmp_interval = intervals[0]
+                                del intervals[0]
+
+                                #suppress_duplicates
+                                if curr_interval.equalsAndFusion_strict(tmp_interval) == 0
+                                    #the tmp interval isn't the same interval
+                                
                             """
                             while len(intervals) > 0:
                                 tmp_interval = intervals[0]
