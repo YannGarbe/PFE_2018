@@ -4,6 +4,7 @@ from collections import defaultdict
 from Parameters import Parameters
 from ReadFiles import ReadFiles
 from IteratorTools import *
+from Interval import *
 
 
 class Iterator:
@@ -84,12 +85,15 @@ class Iterator:
                         # 
                         i_max_run = len(intervals)
                         
+                        #Loop to be sure to catch all the possibilities
+                        # (In case a interval is not compatible at T0, 
+                        #   but is at T1 because the curr_interval would be not the same)
                         for _ in range(0, i_max_run):
                         
                             interval_max = intervals[0]
                             #print(interval_max.toStringInterval())
                             #Retrieves the first element of the list and moves it away
-                            new_intervals = []
+                            curr_list_intervals = []
                             del intervals[0]
 
                             #Loop until the list is empty
@@ -97,15 +101,15 @@ class Iterator:
                                 tmp_interval = intervals[0]
                                 del intervals[0]
                                 if interval_max.compareAndFusion_gentle(tmp_interval) == 0:
-                                    new_intervals.append(tmp_interval)
-                            new_intervals.append(interval_max)
+                                    curr_list_intervals.append(tmp_interval)
+                            curr_list_intervals.append(interval_max)
                             
-                            dict_data[id_a][id_b][strand] = new_intervals
+                            dict_data[id_a][id_b][strand] = curr_list_intervals
                             intervals = dict_data[id_a][id_b][strand]
 
         return dict_data              
 
-    def strict_detection(self, dict_data):
+    def strict_detection(self, dict_data, filespath):
         tools = IteratorTools()
         for id_a in dict_data:
             for id_b in dict_data[id_a]:
@@ -113,56 +117,188 @@ class Iterator:
                     intervals = dict_data[id_a][id_b][strand]
                     if len(intervals) > 1:
                         intervals = tools.sort_Intervals_start(intervals, True)
-
-                        # Points sur le Strict :
-                        # > A la différence du gentle, on ne prend que si tout les overlappeur ont
-                        #   trouvé un interval de ce type.
-                        # > Cela implique que les intervals de doivent à la fois être regroupés 
-                        #   et à la fois viennent d'une origine différente.
-                        # Astuces :
-                        # > Faire une fusion normale. Puis, vérifier que le nombre de fichiers différents est égal au nombre total de fichier
-                        #   Si c'est le cas, on garde la fusion. Sinon, ne garde pas la fusion.
-                        #   Tous les intervals hors fusion ne sont pas gardés.
-                        # Point de résistance :
-                        # > Comment gérer les groupes qui ne sont pas avec le premier intervalle?
-                        #   (il faudrait boucler, tant que la boucle n'est pas terminée, on garde le intervalles n'ayant pas fusionné).
-
-                        #interval_max = intervals[0]
-                        #Retrieves the first element of the list and moves it away
+                        """
+                        # Deux points sur le strict
                         new_intervals = []
-                        curr_list_intervals = intervals
+                        
                         #del intervals[0]
 
                         i_max_run = len(intervals)
+                        dict_fusion = {}
+
+                        origin_dict = {}
+                        
+                        #Loop to be sure to catch all the possibilities
+                        # (In case a interval is not compatible at T0, 
+                        #   but is at T1 because the curr_interval would be not the same)
                         for _ in range(0, i_max_run):
+                            curr_list_intervals = []
+
                             curr_interval = intervals[0]
                             del intervals[0]
-                            interval_file_names = []
+                            #interval_file_names = []
+
+                            originPresent = False
+
+                            #Store the origin
+                            #Check if the interval exist in the 
+                            for key, value in origin_dict.items():
+                                if value.equalsInterval(curr_interval):
+                                    originPresent = True
+
+                            if not originPresent:
+                                origin_dict[curr_interval] = curr_interval
+
+
                             while len(intervals) > 0:
                                 tmp_interval = intervals[0]
                                 del intervals[0]
-
-                                #suppress_duplicates
-                                if curr_interval.equalsAndFusion_strict(tmp_interval) == 0
-                                    #the tmp interval isn't the same interval
                                 
-                            """
-                            while len(intervals) > 0:
-                                tmp_interval = intervals[0]
-                                del intervals[0]
+
+                                #Le principal problème est que je dois faire un système de fusion,
+                                # tout en gardant l'intervalle d'origine.
+                                # Idée 1 : pour chaque interval, ajouter un attribut d'intervalle origin.
+                                # Idée 2 : Jouer sur les retours?
+                                curr_interval.compareAndFusion_strict(origin_dict, tmp_interval, dict_fusion)
+
+                                curr_list_intervals.append(tmp_interval)
+                                
 
                                 
-                                #(test)
-                                
-                                if interval_max.compareAndFusion_gentle(tmp_interval) == 0:
-                                    new_intervals.append(tmp_interval)
-                            new_intervals.append(interval_max)
-                            """
-
+                            curr_list_intervals.append(curr_interval)
                             intervals = curr_list_intervals
+                         
                         dict_data[id_a][id_b][strand] = new_intervals
+                        """
+                        
+                        max_end_value_A = 0
+                        max_end_value_B = 0
 
-        return dict_data              
+                        #Get the max end value
+                        for curr_interval in intervals:
+                            if curr_interval.getEnd_A() > max_end_value_A:
+                                max_end_value_A = curr_interval.getEnd_A()
+                            if curr_interval.getEnd_B() > max_end_value_B:
+                                max_end_value_B = curr_interval.getEnd_B()
+
+                        #Init the lists
+                        cover_A = []
+                        cover_B = []
+                        for _ in range(max_end_value_A):
+                            cover_A.append([])
+                        for _ in range(max_end_value_B):
+                            cover_B.append([])
+                        
+                        #           
+                        for curr_interval in intervals:
+                            for i in range (curr_interval.getStart_A(), curr_interval.getEnd_A()):
+                                cover_A[i].append(curr_interval)
+                            for i in range (curr_interval.getStart_B(), curr_interval.getEnd_B()):
+                                cover_B[i].append(curr_interval)
+
+                        #
+                        max_interval_A = 0
+                        max_interval_B = 0
+
+                        list_id_A = []
+                        list_id_B = []
+                       
+                        #Get max
+                        for i_intervals in cover_A:
+                            if len(i_intervals) > max_interval_A: 
+                                max_interval_A = len(i_intervals)
+                        
+                        for i_intervals in cover_B:
+                            if len(i_intervals) > max_interval_B: 
+                                max_interval_B = len(i_intervals)
+                        
+                        #Empty the current list of intervals
+                                del dict_data[id_a][id_b][strand] [:]
+                        #Analyse A
+                        if max_interval_A >= len(filespath) and max_interval_B >= len(filespath):
+                            #Treat the several interval case (need more details)
+                            if max_interval_A > len(filespath) or max_interval_A > len(filespath):
+                                print("Warning : One or several overlappers created several intervals for one intersection")
+                            #Get the intervals list
+                            list_id_A = tools.retrieve_id_strict_analysis(filespath, max_interval_A, cover_A, list_id_A)
+                            list_id_B = tools.retrieve_id_strict_analysis(filespath, max_interval_B, cover_B, list_id_B)
+                            
+                            if len(list_id_A) > 0 and len(list_id_B) > 0:
+                            
+                            #Now almost everything is done. We only need to get the longest interval
+                                
+                                list_starts_A = []
+                                list_ends_A = []
+                                list_lengths_A = []
+                                list_starts_B = []
+                                list_ends_B = []
+                                list_lengths_B = []
+
+
+                                curr_length = 0
+                                for i in range(len(list_id_A)):
+                                    if i == 0:
+                                        list_starts_A.append(list_id_A[i])
+                                    else:
+                                        if list_id_A[i] != (list_id_A[i-1] + 1):
+                                            #it's a different interval
+                                            list_ends_A.append(list_id_A[i-1])
+                                            list_starts_A.append(list_id_A[i])
+                                            list_lengths_A.append(curr_length)
+                                            curr_length = 0
+                                        elif i == len(list_id_A)-1:
+                                            curr_length = curr_length + 1
+                                            list_ends_A.append(list_id_A[i])
+                                            list_lengths_A.append(curr_length)
+                                    curr_length = curr_length + 1
+                                
+                                curr_length = 0
+
+                                for i in range(len(list_id_B)):
+                                    if i == 0:
+                                        list_starts_B.append(list_id_B[i])
+                                    else:
+                                        if list_id_B[i] != (list_id_B[i-1] + 1):
+                                            #it's a different interval
+                                            list_ends_B.append(list_id_A[i-1])
+                                            list_starts_B.append(list_id_A[i])
+                                            list_lengths_B.append(curr_length)
+                                            curr_length = 0
+                                        elif i == len(list_id_B)-1:
+                                            curr_length = curr_length + 1
+                                            list_ends_B.append(list_id_B[i])
+                                            list_lengths_B.append(curr_length)
+                                    curr_length = curr_length + 1
+
+                                
+                                #Guardrail : check if all the lists have the same length
+                                if len(list_starts_A) == len(list_ends_A) and len(list_starts_A) == len(list_lengths_A):
+                                    new_interval = Interval("", id_a, id_b, strand, "", "", "", "", "", "")
+
+                                    #Finally check the max
+                                    max_length = 0
+                                    for i_length in list_lengths_A:
+                                        if max_length < i_length:
+                                            max_length = i_length
+                                    for i in range(len(list_lengths_A)):
+                                        if list_lengths_A[i] == max_length:
+                                            new_interval.setStart_A(str(list_starts_A[i]))
+                                            new_interval.setEnd_A(str(list_ends_A[i]))
+                                            new_interval.setLength_A(str(list_lengths_A[i]))
+                                    
+                                    for i_length in list_lengths_B:
+                                        if max_length < i_length:
+                                            max_length = i_length
+                                    for i in range(len(list_lengths_B)):
+                                        if list_lengths_B[i] == max_length:
+                                            new_interval.setStart_B(str(list_starts_B[i]))
+                                            new_interval.setEnd_B(str(list_ends_B[i]))
+                                            new_interval.setLength_B(str(list_lengths_B[i]))
+                                    
+                                    #And add the interval in the dictionnary
+                                    dict_data[id_a][id_b][strand].append(new_interval)
+                                    
+        return dict_data
     
     def statistics(self, dict_data, filespath):
         """Iterates through the triple hashmap of itervals to make some statistics.
@@ -264,3 +400,4 @@ class Iterator:
         
     def detect_same_overlap(self, intervals):
         pass
+                                                              

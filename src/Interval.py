@@ -5,7 +5,7 @@
 class Interval:
 
     def __init__(self, filename, id_A, id_B, strand,
-    length_A, length_B, start_A, start_B, end_A, end_B):
+                 length_A, length_B, start_A, start_B, end_A, end_B):
         """Initiate the class with the given informations
 
 
@@ -126,53 +126,74 @@ class Interval:
     def compareAndFusion_gentle(self, other_interval):
         # Tmp
 
-        #if other_interval.getId_A() == 1 and other_interval.getId_B() == 6696:
+        # if other_interval.getId_A() == 1 and other_interval.getId_B() == 6696:
         #    print(self.getEnd_A(), " VS ", other_interval.getStart_A(), " Du coup : ", self.getEnd_A() >= other_interval.getStart_A())
-        
-        
+
         if (self.getEnd_A() >= other_interval.getStart_A()) and (self.getStart_A() <= other_interval.getEnd_A()):
 
             if (self.getEnd_B() >= other_interval.getStart_B()) and (self.getStart_B() <= other_interval.getEnd_B()):
 
                 self.setStart_A(
-                min(self.getStart_A(), other_interval.getStart_A()))
+                    min(self.getStart_A(), other_interval.getStart_A()))
                 self.setStart_B(
-                min(self.getStart_B(), other_interval.getStart_B()))
+                    min(self.getStart_B(), other_interval.getStart_B()))
 
                 self.setEnd_A(
-                max(self.getEnd_A(), other_interval.getEnd_A()))
+                    max(self.getEnd_A(), other_interval.getEnd_A()))
                 self.setEnd_B(
-                max(self.getEnd_B(), other_interval.getEnd_B()))
+                    max(self.getEnd_B(), other_interval.getEnd_B()))
                 return 1
             else:
                 return 0
         else:
             return 0
 
-
-    def compareAndFusion_strict(self, other_interval):
+    def compareAndFusion_strict(self, origin_dict, other_interval, dict_fusion):
         # le but ici est, au lieu de vérifier et de fusionner au minimum en même temps,
-        #    on ajoute l'interval à unifier dans un tableau, MAIS ON AJOUTE LE MAXIMUM ! Comme ça on peut être à peut prêt sur de prendre toutes les valeurs. 
+        #    on ajoute l'interval à unifier dans un tableau, MAIS ON AJOUTE LE MAXIMUM ! Comme ça on peut être à peut prêt sur de prendre toutes les valeurs.
         #    Une fois toutes les comparaisons faites, on fusionne le tout au minimal
-        # 
-        #if other_interval.getId_A() == 1 and other_interval.getId_B() == 6696:
+        #
+        # if other_interval.getId_A() == 1 and other_interval.getId_B() == 6696:
         #    print(self.getEnd_A(), " VS ", other_interval.getStart_A(), " Du coup : ", self.getEnd_A() >= other_interval.getStart_A())
-        
-        
+
         if (self.getEnd_A() >= other_interval.getStart_A()) and (self.getStart_A() <= other_interval.getEnd_A()):
 
             if (self.getEnd_B() >= other_interval.getStart_B()) and (self.getStart_B() <= other_interval.getEnd_B()):
+                if (self.getFilename() == other_interval.getFilename()):
+                    print(
+                        "WARNING : Two Intervals found by the same overlapper (file : " + self.getFilename() + ")")
+                    return -1
+                else:
+                    
+                    #Get the origin of the interval
+                    for key, value in origin_dict.items():
+                        if value.equalsInterval():
+                                origin_interval = key
 
-                self.setStart_A(
-                min(self.getStart_A(), other_interval.getStart_A()))
-                self.setStart_B(
-                min(self.getStart_B(), other_interval.getStart_B()))
+                    self.setStart_A(
+                        min(self.getStart_A(), other_interval.getStart_A()))
+                    self.setStart_B(
+                        min(self.getStart_B(), other_interval.getStart_B()))
 
-                self.setEnd_A(
-                max(self.getEnd_A(), other_interval.getEnd_A()))
-                self.setEnd_B(
-                max(self.getEnd_B(), other_interval.getEnd_B()))
-                return 1
+                    self.setEnd_A(
+                        max(self.getEnd_A(), other_interval.getEnd_A()))
+                    self.setEnd_B(
+                        max(self.getEnd_B(), other_interval.getEnd_B()))
+
+                    #Update de origin of the interval
+                    origin_dict[origin_interval] = self
+
+                    if (other_interval in dict_fusion) and (origin_interval not in dict_fusion[other_interval]):
+                        dict_fusion[other_interval].append(origin_interval)
+                    else:
+                        if origin_interval not in dict_fusion:
+                            dict_fusion[origin_interval] = []
+                            dict_fusion[origin_interval].append(other_interval)
+                        elif other_interval not in dict_fusion[origin_interval]:
+                            dict_fusion[origin_interval].append(other_interval)
+                        else:
+                            return 0
+                    return 1
             else:
                 return 0
         else:
@@ -183,6 +204,7 @@ class Interval:
 
             if (self.getEnd_B() >= other_interval.getStart_B()) and (self.getStart_B() <= other_interval.getEnd_B()):
                 if (self.getFilename() == other_interval.getFilename()):
+                    """
                     self.setStart_A(
                     min(self.getStart_A(), other_interval.getStart_A()))
                     self.setStart_B(
@@ -192,6 +214,9 @@ class Interval:
                     max(self.getEnd_A(), other_interval.getEnd_A()))
                     self.setEnd_B(
                     max(self.getEnd_B(), other_interval.getEnd_B()))
+                    """
+                    print(
+                        "WARNING : Two intervals found by the same file : " + self.getFilename())
                     return 1
                 else:
                     return 0
@@ -200,12 +225,26 @@ class Interval:
         else:
             return 0
 
-
-    # ============================================================== 
+    # ==============================================================
 
     def toStringInterval(self):
         return ""+self.filename+": [id_A] : "+str(self.id_A)+"| [id_B] : "+str(self.id_B) + \
-        "| [Strand] : "+str(self.strand)+"| [Length_B] : "+str(self.length_B) + \
-        "| [Length_A] : "+str(self.length_A)+"| [Length_B] : "+str(self.length_B) + \
-        "| [Start_A] : "+str(self.start_A)+"| [Start_B] : "+str(self.start_B) + \
-        "| [End_A] : "+str(self.end_A)+"| [End_B] : "+str(self.end_B)
+            "| [Strand] : "+str(self.strand)+"| [Length_B] : "+str(self.length_B) + \
+            "| [Length_A] : "+str(self.length_A)+"| [Length_B] : "+str(self.length_B) + \
+            "| [Start_A] : "+str(self.start_A)+"| [Start_B] : "+str(self.start_B) + \
+            "| [End_A] : "+str(self.end_A)+"| [End_B] : "+str(self.end_B)
+
+    def equalsInterval(self, other_interval):
+        if self.getFilename() == other_interval.getFilename() and \
+            self.getId_A() == other_interval.getId_A() and \
+            self.getId_B() == other_interval.getId_B() and \
+            self.getStrand() == other_interval.getStrand() and \
+            self.getLength_A() == other_interval.getLength_A() and \
+            self.getLength_B() == other_interval.getLength_B() and \
+            self.getStart_A() == other_interval.getStart_A() and \
+            self.getStart_B() == other_interval.getStart_B() and \
+            self.getEnd_A() == other_interval.getEnd_A() and \
+            self.getEnd_B() == other_interval.getEnd_B():
+            return True
+        else:
+            return False

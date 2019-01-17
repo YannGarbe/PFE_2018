@@ -38,3 +38,23 @@ class IteratorTools:
             intervals[min_j] = tmp_interval
         """Returns the sorted intervals"""
         return intervals
+
+    def retrieve_id_strict_analysis(self, filespath, max_interval_N, cover_N, list_id_N):
+        for i in range(len(cover_N)):
+
+
+            if len(cover_N[i]) == max_interval_N:
+                for curr_filepath in filespath:
+                    curr_filename = curr_filepath.split("/")[-1]
+
+                    contains_the_curr_overlapper = False
+                    for curr_interval in cover_N[i]:
+                        if curr_interval.getFilename() == curr_filename:
+                            #The curr_overlapper has detected an interval
+                            contains_the_curr_overlapper = True
+                            break
+                    #The curr_overlapper hasn't detected an interval. It's time to move on
+                    if not contains_the_curr_overlapper:
+                        break
+                list_id_N.append(i)
+        return list_id_N

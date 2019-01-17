@@ -16,6 +16,7 @@
 
 - Ajouter un paramètre dans le programme :
     - "--strict" : n'accepte l'intervalles que si tous les overlappers sont d'accord (création d'un intervalle qui unifie les intervalles en prenant l'intervalle le plus grand)
+    - "--cover" : accepte l'intervalle le plus couvert par les overlappers (s'il y a maximum 3 overlappers )
 
 - QoL sur l'utilisation du programme
 - QoL pour éviter la dedondance de code
@@ -26,7 +27,7 @@
 
 ### Précis
 
-- Utiliser une boucle avec un pop
+- Utiliser une boucle avec un pop (facultatif)
 
 ## DONE
 
@@ -81,6 +82,30 @@ Créer une classe qui garde les informations importantes
 - end_B : indice de fin de B
 
 ## Quelques idées supplémentaires
+
+### Calculs sur minimum par une courbe de couverture
+
+- Faire un tableau (valeurs initialisées à zero) qui par de 0 jusqu'à la fin de l'intervalle le plus loin. On boucle pour chaque intervalle du début à la fin d'intervalle. On ajoute +1. Il suffira de prendre la partie qui a un nombre le plus grand.
+
+- Exemple :
+
+``` console
+A -> de 1 à 3
+B -> de 2 à 5
+C -> de 7 à 8
+
+Cela donne
+0 1 2 2 1 1 0 1 1
+
+Si on utilise l'option --cover, l'intervalle est 2 - 3
+Si on utilise l'option --strict , il n'y a pas d'intervalle car le nombre max (2) n'est pas égal au nombre d'intervalles de départ (3)
+```
+
+#### Limites
+
+Cela ne marche que pour R1 ou R2, mais pas R1 ET R2.
+
+Possible solution : faire un dictionnaire avec les intervalles au lieu de juste des entier?
 
 ### Type de fichier générique
 
