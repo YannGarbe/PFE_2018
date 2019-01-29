@@ -13,9 +13,6 @@
 ### Général
 
 - Ajouter un paramètre dans le programme :
-    - "strict" : n'accepte l'intervalles que si tous les overlappers sont d'accord (création d'un intervalle qui unifie les intervalles en prenant l'intervalle le plus grand)
-        - "--get_all" : prend en compte tous les intervalles les plus grand (création de plusieurs intervalles)
-    - "max" : accepte l'intervalle le plus couvert par les overlappers
     - "custom N" : accepte l'intervalle couvert par N overlappers
 
 - QoL sur l'utilisation du programme
@@ -39,7 +36,8 @@
 
 - Analyses :
     - Type gentle ajouté
-    - Type strict ajouté (sans option get_all)
+    - Type strict ajouté (avec option get_all)
+    - Type max ajouté (avec option get_all)
 
 - Sorties :
     - Paf
