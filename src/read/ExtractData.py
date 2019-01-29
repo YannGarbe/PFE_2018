@@ -1,7 +1,11 @@
-from MyExceptions import *
 import csv
-from Interval import Interval
 from collections import defaultdict
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0,parentdir) 
+from misc.Interval import Interval
+from misc.MyExceptions import *
 
 """This class extracts the informations of a file and store them in a triple hashmap."""
 class ExtractData :

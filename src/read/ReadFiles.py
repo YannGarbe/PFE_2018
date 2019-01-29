@@ -1,8 +1,11 @@
 import csv
-import os.path
-from Interval import Interval
-from ExtractData import *
-from MyExceptions import NotYetImplementedError
+import os,sys,inspect, os.path
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0,parentdir) 
+from misc.Interval import Interval
+from misc.MyExceptions import NotYetImplementedError
+from read.ExtractData import *
 
 """This class reads the different files and store their information"""
 class ReadFiles:

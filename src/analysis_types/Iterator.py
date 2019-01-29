@@ -1,11 +1,16 @@
 import sys
 import math
 from collections import defaultdict
-from Parameters import Parameters
-from ReadFiles import ReadFiles
-from IteratorTools import *
-from Interval import *
 
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0,parentdir)
+
+from read.Parameters import Parameters
+from read.ReadFiles import ReadFiles
+from misc.IteratorTools import *
+from misc.Interval import *
 
 class Iterator:
     def detect_overlaps(self, dict_data, strict):
@@ -175,6 +180,7 @@ class Iterator:
                         max_end_value_B = 0
 
                         #Get the max end value
+                        # Récupération de la valeur de fin minimale
                         for curr_interval in intervals:
                             if curr_interval.getEnd_A() > max_end_value_A:
                                 max_end_value_A = curr_interval.getEnd_A()
@@ -182,6 +188,7 @@ class Iterator:
                                 max_end_value_B = curr_interval.getEnd_B()
 
                         #Init the lists
+                        #Initialisation des listes pour la courbe de couverture
                         cover_A = []
                         cover_B = []
                         for _ in range(max_end_value_A):
@@ -189,7 +196,7 @@ class Iterator:
                         for _ in range(max_end_value_B):
                             cover_B.append([])
                         
-                        #           
+                        #Ajout des intervalles dans les listes
                         for curr_interval in intervals:
                             for i in range (curr_interval.getStart_A(), curr_interval.getEnd_A()):
                                 cover_A[i].append(curr_interval)
@@ -204,6 +211,7 @@ class Iterator:
                         list_id_B = []
                        
                         #Get max
+                        #Récupération de la longueur maximale des listes
                         for i_intervals in cover_A:
                             if len(i_intervals) > max_interval_A: 
                                 max_interval_A = len(i_intervals)
@@ -213,16 +221,24 @@ class Iterator:
                                 max_interval_B = len(i_intervals)
                         
                         #Empty the current list of intervals
-                                del dict_data[id_a][id_b][strand] [:]
+                        del dict_data[id_a][id_b][strand] [:]
+                        
                         #Analyse A
+                        # > Vérification que la longueur maximale soit au moins égale au nombre d'overlappers
+                        
                         if max_interval_A >= len(filespath) and max_interval_B >= len(filespath):
                             #Treat the several interval case (need more details)
+                            
+                            #If the function detects several intervals from one overlappers
+                            
                             if max_interval_A > len(filespath) or max_interval_A > len(filespath):
                                 print("Warning : One or several overlappers created several intervals for one intersection")
                             #Get the intervals list
+                            # > Récupération sous la forme de liste de toutes positions avec une longueur maximale ayant au moins un intervalle par overlapper
                             list_id_A = tools.retrieve_id_strict_analysis(filespath, max_interval_A, cover_A, list_id_A)
                             list_id_B = tools.retrieve_id_strict_analysis(filespath, max_interval_B, cover_B, list_id_B)
                             
+                            #Vérification que les deux listes se soient pas vides
                             if len(list_id_A) > 0 and len(list_id_B) > 0:
                             
                             #Now almost everything is done. We only need to get the longest interval
@@ -234,7 +250,10 @@ class Iterator:
                                 list_ends_B = []
                                 list_lengths_B = []
 
-
+                                #Parcourt de toutes les positions récupérées. 
+                                # Si la position N n'est pas égale à la (position N-1)+1, 
+                                # Il s'agit d'un autre intervalle
+                                #On récupère donc tous les intervalles disponibles ayant le plus grand consensus
                                 curr_length = 0
                                 for i in range(len(list_id_A)):
                                     if i == 0:
@@ -265,13 +284,14 @@ class Iterator:
                                             list_lengths_B.append(curr_length)
                                             curr_length = 0
                                         elif i == len(list_id_B)-1:
-                                            curr_length = curr_length + 1
+                                            curr_length = curr_length
                                             list_ends_B.append(list_id_B[i])
                                             list_lengths_B.append(curr_length)
                                     curr_length = curr_length + 1
 
                                 
                                 #Guardrail : check if all the lists have the same length
+                                #We take the longer intervals among those we found
                                 if len(list_starts_A) == len(list_ends_A) and len(list_starts_A) == len(list_lengths_A):
                                     new_interval = Interval("", id_a, id_b, strand, "", "", "", "", "", "")
 
@@ -283,8 +303,8 @@ class Iterator:
                                     for i in range(len(list_lengths_A)):
                                         if list_lengths_A[i] == max_length:
                                             new_interval.setStart_A(str(list_starts_A[i]))
-                                            new_interval.setEnd_A(str(list_ends_A[i]))
-                                            new_interval.setLength_A(str(list_lengths_A[i]))
+                                            new_interval.setEnd_A(str(list_ends_A[i]+1))
+                                            new_interval.setLength_A(str(list_lengths_A[i]+1))
                                     
                                     for i_length in list_lengths_B:
                                         if max_length < i_length:
@@ -292,8 +312,8 @@ class Iterator:
                                     for i in range(len(list_lengths_B)):
                                         if list_lengths_B[i] == max_length:
                                             new_interval.setStart_B(str(list_starts_B[i]))
-                                            new_interval.setEnd_B(str(list_ends_B[i]))
-                                            new_interval.setLength_B(str(list_lengths_B[i]))
+                                            new_interval.setEnd_B(str(list_ends_B[i]+1))
+                                            new_interval.setLength_B(str(list_lengths_B[i]+1))
                                     
                                     #And add the interval in the dictionnary
                                     dict_data[id_a][id_b][strand].append(new_interval)

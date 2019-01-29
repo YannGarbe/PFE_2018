@@ -1,6 +1,11 @@
 import argparse
 import os.path
-from MyExceptions import *
+
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0,parentdir) 
+from misc.MyExceptions import *
 
 
 class Parameters:
@@ -26,9 +31,14 @@ class Parameters:
         """
         parser = argparse.ArgumentParser(
             description="Analyze Overlappers' results.")
-        parser.add_argument("analysis", metavar="AnalysisType", default="gentle", choices=["gentle", "strict"],
-                            help="The type of the analysis. 'gentle' allows all the possible informations. 'strict' allows the informations only if every overlappers are agree to ach other.")
-        parser.add_argument('-s', '--stats', action='store_true')
+        parser.add_argument("analysis", metavar="AnalysisType", default="gentle", choices=["gentle", "strict", "max", "custom"],
+                            help="The type of the analysis. 'gentle' allows all the possible informations. " +
+                            "'strict' allows the informations only if every overlappers are agree with each other." +
+                            "'max' allows the informations only if a maximum of overlappers are agree with each other." + 
+                            "'custom' allows the informations only if N overlappers are agree with each other." +
+                            "'strict' allows the informations only if every overlappers are agree with each other.")
+        #parser.add_argument('custom_number', metavar="CustomType", default="1" help="N number of overlapppers for the custom option")
+        parser.add_argument('-s', '--stats', action='store_true', help="Display statistics about the input files")        
         parser.add_argument("output", metavar="OutputType", default="mhap", choices=["hisea", "mhap", "paf"],
                             help="The extension of the created output file. It can be either 'hisea', 'mhap' or 'paf'")
         parser.add_argument("files", metavar="InputFiles", nargs="+",

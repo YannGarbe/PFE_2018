@@ -1,9 +1,9 @@
 import sys
-from Parameters import Parameters
-from ReadFiles import ReadFiles
-from Iterator import *
-from IteratorTools import *
-from OutputWriter import *
+from read.Parameters import Parameters
+from read.ReadFiles import ReadFiles
+from analysis_types.Iterator import *
+from misc.IteratorTools import *
+from write.OutputWriter import *
 
 class Analyzer:
     pass
@@ -38,11 +38,12 @@ def main(args):
     print("=============================")
     
     if parser.analysis == "gentle":
-        pass
         dict_data = iterator.gentle_detection(dict_data)
-    else:
+    elif parser.analysis == "strict":
         dict_data = iterator.strict_detection(dict_data, parser.files)
-
+    elif parser.analysis == "max":
+        dict_data = iterator.strict_detection(dict_data, parser.files)
+        
     print("=============================")
 
     for i_interval in dict_data['1']['6696']['+']:

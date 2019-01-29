@@ -15,8 +15,10 @@
 - Ajouter un attribut aux intervalles : l'orientation (0 : normal | 1 : inversé) *
 
 - Ajouter un paramètre dans le programme :
-    - "--strict" : n'accepte l'intervalles que si tous les overlappers sont d'accord (création d'un intervalle qui unifie les intervalles en prenant l'intervalle le plus grand)
-    - "--cover" : accepte l'intervalle le plus couvert par les overlappers (s'il y a maximum 3 overlappers )
+    - "strict" : n'accepte l'intervalles que si tous les overlappers sont d'accord (création d'un intervalle qui unifie les intervalles en prenant l'intervalle le plus grand)
+        - "--soften" : prend en compte tous les intervalles les plus grand (création de plusieurs intervalles)
+    - "max" : accepte l'intervalle le plus couvert par les overlappers
+    - "spec N" : accepte l'intervalle couvert par N overlappers
 
 - QoL sur l'utilisation du programme
 - QoL pour éviter la dedondance de code
