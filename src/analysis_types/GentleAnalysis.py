@@ -8,7 +8,7 @@ from read.ReadFiles import ReadFiles
 from misc.AnalysisTools import *
 from misc.Interval import *
 
-
+"""This class implements the gentle analysis, where all the intervals are accepted"""
 class GentleAnalysis:
 
     def analyse_data(self, dict_data):

@@ -12,24 +12,16 @@
 
 ### Général
 
-- Ajouter un attribut aux intervalles : l'orientation (0 : normal | 1 : inversé) *
-
 - Ajouter un paramètre dans le programme :
     - "strict" : n'accepte l'intervalles que si tous les overlappers sont d'accord (création d'un intervalle qui unifie les intervalles en prenant l'intervalle le plus grand)
-        - "--soften" : prend en compte tous les intervalles les plus grand (création de plusieurs intervalles)
+        - "--get_all" : prend en compte tous les intervalles les plus grand (création de plusieurs intervalles)
     - "max" : accepte l'intervalle le plus couvert par les overlappers
-    - "spec N" : accepte l'intervalle couvert par N overlappers
+    - "custom N" : accepte l'intervalle couvert par N overlappers
 
 - QoL sur l'utilisation du programme
-- QoL pour éviter la dedondance de code
-- Faire une fusion des longueurs?
 - **Refaire tous les tests**
 
 - (remarque quand on a des exceptions relevées, bien indiquer au moins le fichier concerné.)
-
-### Précis
-
-- Utiliser une boucle avec un pop (facultatif)
 
 ## DONE
 
@@ -47,11 +39,15 @@
 
 - Analyses :
     - Type gentle ajouté
+    - Type strict ajouté (sans option get_all)
 
 - Sorties :
     - Paf
     - Mhap
 
+- Option :
+    - Stats pour avoir quelques statistiques sur les données
+    - get_all afin d'obtenir l tous les intervals et non le plus long
 
 ## Infos complémentaires
 

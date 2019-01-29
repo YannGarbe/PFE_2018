@@ -45,6 +45,15 @@ class AnalysisTools:
         """Returns the sorted intervals"""
         return intervals
 
+    """Get all the ids where all the overlappers detected an interval
+
+        Attributes:
+            filespath : the path of the files (overlappers)
+            max_interval_N : the maximum number of intervals
+            cover_N : the coverage curve
+            list_id_N : the old list of ids
+    
+    """
     def retrieve_id_strict_analysis(self, filespath, max_interval_N, cover_N, list_id_N):
         for i in range(len(cover_N)):
             if len(cover_N[i]) == max_interval_N:
@@ -61,4 +70,9 @@ class AnalysisTools:
                     if not contains_the_curr_overlapper:
                         break
                 list_id_N.append(i)
+        """Returns the new list of ids"""
         return list_id_N
+
+
+    def remove_duplicates_interval(self, interval_list):
+        pass

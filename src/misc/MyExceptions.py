@@ -15,3 +15,6 @@ class BadFormatFileError(Exception):
 
 class BadFormatConfigAllowedFileTypesError(Exception):
     pass
+
+class UnknownError(Exception):
+    pass

@@ -12,6 +12,7 @@ from read.ReadFiles import ReadFiles
 from misc.AnalysisTools import *
 from misc.Interval import *
 
+"""This class implements the gentle analysis, where the intervals are accepted once N overlappers detect them"""
 class CustomAnalysis:
 
     def analyse_data(self):
