@@ -28,7 +28,7 @@ class StrictAnalysis:
                 for strand in dict_data[id_a][id_b]:
                     intervals = dict_data[id_a][id_b][strand]
                     if len(intervals) > 1:
-                        intervals = tools.sort_Intervals_start(intervals, True)
+                        intervals = tools.remove_duplicates_interval(tools.sort_Intervals_start(intervals, True))
 
                         max_end_value_A = 0
                         max_end_value_B = 0
@@ -129,7 +129,6 @@ class StrictAnalysis:
                                     curr_length = curr_length + 1
 
                                 curr_length = 0
-
                                 for i in range(len(list_id_B)):
                                     if i == 0:
                                         list_starts_B.append(list_id_B[i])
@@ -145,93 +144,95 @@ class StrictAnalysis:
                                             list_ends_B.append(list_id_B[i])
                                             list_lengths_B.append(curr_length)
                                     curr_length = curr_length + 1
-                                    # Guardrail : check if all the lists have the same length
-                                    # We take the longer intervals among those we found
-                                    if len(list_starts_A) == len(list_ends_A) and len(list_starts_A) == len(list_lengths_A):
-                                        if get_all:
-                                            new_list_interval=[]
-                                            if len(list_starts_A) >= len(list_starts_B):
-                                                
-                                                for i in range(len(list_lengths_B)):
-                                                    new_interval=Interval(
-                                                        "", id_a, id_b, strand, "", "", "", "", "", "")
-                                                    
-                                                    new_interval.setStart_A(
-                                                        str(list_starts_A[i]))
-                                                    new_interval.setEnd_A(
-                                                        str(list_ends_A[i]+1))
-                                                    new_interval.setLength_A(
-                                                        str(list_lengths_A[i]+1))
-                                                    
-                                                    
-                                                    new_interval.setStart_B(
-                                                        str(list_starts_B[i]))
-                                                    new_interval.setEnd_B(
-                                                        str(list_ends_B[i]+1))
-                                                    new_interval.setLength_B(
-                                                        str(list_lengths_B[i]+1))
-                                                    new_list_interval.append(new_interval)
-
-                                            else:
-                                                
-                                                for i in range(len(list_lengths_A)):
-                                                    new_interval=Interval(
-                                                        "", id_a, id_b, strand, "", "", "", "", "", "")
-                                                    
-                                                    new_interval.setStart_A(
-                                                        str(list_starts_A[i]))
-                                                    new_interval.setEnd_A(
-                                                        str(list_ends_A[i]+1))
-                                                    new_interval.setLength_A(
-                                                        str(list_lengths_A[i]+1))
-                                                    
-                                                    
-                                                    new_interval.setStart_B(
-                                                        str(list_starts_B[i]))
-                                                    new_interval.setEnd_B(
-                                                        str(list_ends_B[i]+1))
-                                                    new_interval.setLength_B(
-                                                        str(list_lengths_B[i]+1))
-                                                    new_list_interval.append(new_interval)
+                                    
+                                # Guardrail : check if all the lists have the same length
+                                # We take the longer intervals among those we found
+                                
+                                if len(list_starts_A) == len(list_ends_A) and len(list_starts_A) == len(list_lengths_A):
+                                    if get_all:
+                                        new_list_interval=[]
+                                        if len(list_starts_A) >= len(list_starts_B):
                                             
-                                            dict_data[id_a][id_b][strand] = new_list_interval
+                                            for i in range(len(list_lengths_B)):
+                                                new_interval=Interval(
+                                                    "", id_a, id_b, strand, "", "", "", "", "", "")
+                                                
+                                                new_interval.setStart_A(
+                                                    str(list_starts_A[i]))
+                                                new_interval.setEnd_A(
+                                                    str(list_ends_A[i]+1))
+                                                new_interval.setLength_A(
+                                                    str(list_lengths_A[i]+1))
+                                                
+                                                
+                                                new_interval.setStart_B(
+                                                    str(list_starts_B[i]))
+                                                new_interval.setEnd_B(
+                                                    str(list_ends_B[i]+1))
+                                                new_interval.setLength_B(
+                                                    str(list_lengths_B[i]+1))
+                                                new_list_interval.append(new_interval)
 
                                         else:
-
-                                            new_interval=Interval(
-                                                "", id_a, id_b, strand, "", "", "", "", "", "")
-
-                                            # Finally check the max
-                                            # Get the longest interval
-                                            max_length=0
-                                            for i_length in list_lengths_A:
-                                                if max_length < i_length:
-                                                    max_length=i_length
+                                            
                                             for i in range(len(list_lengths_A)):
-                                                if list_lengths_A[i] == max_length:
-                                                    new_interval.setStart_A(
-                                                        str(list_starts_A[i]))
-                                                    new_interval.setEnd_A(
-                                                        str(list_ends_A[i]+1))
-                                                    new_interval.setLength_A(
-                                                        str(list_lengths_A[i]+1))
+                                                new_interval=Interval(
+                                                    "", id_a, id_b, strand, "", "", "", "", "", "")
+                                                
+                                                new_interval.setStart_A(
+                                                    str(list_starts_A[i]))
+                                                new_interval.setEnd_A(
+                                                    str(list_ends_A[i]+1))
+                                                new_interval.setLength_A(
+                                                    str(list_lengths_A[i]+1))
+                                                
+                                                
+                                                new_interval.setStart_B(
+                                                    str(list_starts_B[i]))
+                                                new_interval.setEnd_B(
+                                                    str(list_ends_B[i]+1))
+                                                new_interval.setLength_B(
+                                                    str(list_lengths_B[i]+1))
+                                                new_list_interval.append(new_interval)
+                                        
+                                        dict_data[id_a][id_b][strand] = new_list_interval
 
-                                            for i_length in list_lengths_B:
-                                                if max_length < i_length:
-                                                    max_length=i_length
-                                            for i in range(len(list_lengths_B)):
-                                                if list_lengths_B[i] == max_length:
-                                                    new_interval.setStart_B(
-                                                        str(list_starts_B[i]))
-                                                    new_interval.setEnd_B(
-                                                        str(list_ends_B[i]+1))
-                                                    new_interval.setLength_B(
-                                                        str(list_lengths_B[i]+1))
-
-                                            # And add the interval in the dictionnary
-                                            dict_data[id_a][id_b][strand].append(
-                                                new_interval)
                                     else:
-                                        raise UnknownError("Unexcpected Error : ", len(list_starts_A), ", ", len(
-                                            list_ends_A), " and ", len(list_lengths_A), " should have been equal.")
+
+                                        new_interval=Interval(
+                                            "", id_a, id_b, strand, "", "", "", "", "", "")
+
+                                        # Finally check the max
+                                        # Get the longest interval
+                                        max_length=0
+                                        for i_length in list_lengths_A:
+                                            if max_length < i_length:
+                                                max_length=i_length
+                                        for i in range(len(list_lengths_A)):
+                                            if list_lengths_A[i] == max_length:
+                                                new_interval.setStart_A(
+                                                    str(list_starts_A[i]))
+                                                new_interval.setEnd_A(
+                                                    str(list_ends_A[i]+1))
+                                                new_interval.setLength_A(
+                                                    str(list_lengths_A[i]+1))
+
+                                        for i_length in list_lengths_B:
+                                            if max_length < i_length:
+                                                max_length=i_length
+                                        for i in range(len(list_lengths_B)):
+                                            if list_lengths_B[i] == max_length:
+                                                new_interval.setStart_B(
+                                                    str(list_starts_B[i]))
+                                                new_interval.setEnd_B(
+                                                    str(list_ends_B[i]+1))
+                                                new_interval.setLength_B(
+                                                    str(list_lengths_B[i]+1))
+
+                                        # And add the interval in the dictionnary
+                                        dict_data[id_a][id_b][strand].append(
+                                            new_interval)
+                                else:
+                                    raise UnknownError("Unexcpected Error : ", len(list_starts_A), ", ", len(
+                                        list_ends_A), " and ", len(list_lengths_A), " should have been equal.")
         return dict_data

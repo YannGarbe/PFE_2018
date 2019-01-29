@@ -47,7 +47,6 @@ def main(args):
 
     elif parser.analysis == "strict":
         analysis = StrictAnalysis()
-        print(parser.get_all)
         dict_data = analysis.analyse_data(dict_data, parser.files, parser.get_all)
     elif parser.analysis == "max":
         analysis = MaxAnalysis()
