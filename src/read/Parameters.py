@@ -37,7 +37,9 @@ class Parameters:
                             "'max' allows the informations only if a maximum of overlappers are agree with each other." + 
                             "'custom' allows the informations only if N overlappers are agree with each other." +
                             "'strict' allows the informations only if every overlappers are agree with each other.")
-        #parser.add_argument('custom_number', metavar="CustomType", default="1" help="N number of overlapppers for the custom option")
+        parser.add_argument('-m', '--moreThan', action='store', help="Custom parameter. allows the informations only if more than N overlappers are agree with each other.")
+        parser.add_argument('-l', '--lessThan', action='store', help="Custom parameter. allows the informations only if less than N overlappers are agree with each other.")
+        parser.add_argument('-e', '--equalsTo', action='store', help="Custom parameter. allows the informations only if exactly N overlappers are agree with each other.")
         parser.add_argument('-s', '--stats', action='store_true', help="Display statistics about the input files")
         parser.add_argument('-all', '--get_all', action='store_true', help="Get all the intervals in a custom, max, or strict analysis")        
         parser.add_argument("output", metavar="OutputType", default="mhap", choices=["hisea", "mhap", "paf"],
@@ -45,6 +47,8 @@ class Parameters:
         parser.add_argument("files", metavar="InputFiles", nargs="+",
                             help="The files of the overlappers's results")
 
+
+        
         """Returns the parsed Args"""
         return parser.parse_args(args)
 
@@ -62,3 +66,25 @@ class Parameters:
                 raise FileNotFoundError(file + " : Not Found")
         """Return the files' array"""
         return filespath
+
+    def additionnalAnalysis(self, parser):
+        if parser.analysis == "custom" and parser.moreThan is None and parser.lessThan is None and parser.equalsTo is None:
+            print("Error")
+        
+        if parser.moreThan is not None:
+            if parser.lessThan is not None or parser.equalsTo is not None:
+                print("Error")
+            if parser.moreThan < 0:
+                print("Error")
+        
+        if parser.lessThan is not None:
+            if parser.moreThan is not None or parser.equalsTo is not None:
+                print("Error")
+            if parser.lessThan < 1:
+                print("Error")
+
+        if parser.equalsTo is not None:
+            if parser.lessThan is not None or parser.moreThan is not None:
+                print("Error")
+            if parser.equalsTo < 1:
+                print("Error")

@@ -19,7 +19,9 @@ def main(args):
     parameters = Parameters()
     readFiles = ReadFiles()
     parser = parameters.complete_analyze(sys.argv[1:])
+    parameters.additionnalAnalysis(parser)
     outputWriter = OutputWriter()
+    
     
     #dict = { 'Coucou': ['1', '2', '3', '4']}
     #print(dict['Coucou'][0])
