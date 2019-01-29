@@ -9,56 +9,13 @@ sys.path.insert(0,parentdir)
 
 from read.Parameters import Parameters
 from read.ReadFiles import ReadFiles
-from misc.IteratorTools import *
+from misc.AnalysisTools import *
 from misc.Interval import *
 
-class Iterator:
-    def detect_overlaps(self, dict_data, strict):
-        pass
-        """
-        processed_dict_data = {}
-        # Loop on all the data
-        for id_a in dict_data:
-            for id_b in dict_data[id_a]:
-
-                # Retrieve the interval list
-                intervals = dict_data[id_a][id_b]
-                # print(len(intervals))
-
-                # If the interval list has more than 1 element (possible same overlap)
-
-                # S'il n'y a qu'un seul intervalle, on le supprime(?)
-                if len(intervals) > 1 :
-                    # Plusieurs cas
-                    # Mise en place d'un compteur à 1
-
-
-                    # Si la différence est trop grande (avec une marge de manoeuvre),
-                    #   on ne crée pas de nouvel intervalle (et donc les intervalles sont supprimés)
-                    #   on incrémente le compteur si les fichiers des deux intervals sont différents
-
-                    # S'il y a une concordance, on prend l'écart le plus petit
-
-                    # Si le compteur est égal ou supérieur au nombre d'overlappers minium, on ajoute l'interval à la liste.
-                    #   Sinon, rien ne se fait
-                    # Garde
-
-                    new_interval = intervals[0]
-                    del intervals[0]
-
-                    # while len(intervals) > 0:
-        """
-        for id_a in dict_data:
-            for id_b in dict_data[id_a]:
-                for strand in dict_data[id_a][id_b]:
-                    intervals = dict_data[id_a][id_b][strand]
-                    if strict is True:
-                        pass
-                    else:
-                        pass
-
+class StatisticsAnalysis:
+    
     def gentle_detection(self, dict_data):
-        tools = IteratorTools()
+        tools = AnalysisTools()
         for id_a in dict_data:
             for id_b in dict_data[id_a]:
                 for strand in dict_data[id_a][id_b]:
@@ -115,66 +72,13 @@ class Iterator:
         return dict_data              
 
     def strict_detection(self, dict_data, filespath):
-        tools = IteratorTools()
+        tools = AnalysisTools()
         for id_a in dict_data:
             for id_b in dict_data[id_a]:
                 for strand in dict_data[id_a][id_b]:
                     intervals = dict_data[id_a][id_b][strand]
                     if len(intervals) > 1:
                         intervals = tools.sort_Intervals_start(intervals, True)
-                        """
-                        # Deux points sur le strict
-                        new_intervals = []
-                        
-                        #del intervals[0]
-
-                        i_max_run = len(intervals)
-                        dict_fusion = {}
-
-                        origin_dict = {}
-                        
-                        #Loop to be sure to catch all the possibilities
-                        # (In case a interval is not compatible at T0, 
-                        #   but is at T1 because the curr_interval would be not the same)
-                        for _ in range(0, i_max_run):
-                            curr_list_intervals = []
-
-                            curr_interval = intervals[0]
-                            del intervals[0]
-                            #interval_file_names = []
-
-                            originPresent = False
-
-                            #Store the origin
-                            #Check if the interval exist in the 
-                            for key, value in origin_dict.items():
-                                if value.equalsInterval(curr_interval):
-                                    originPresent = True
-
-                            if not originPresent:
-                                origin_dict[curr_interval] = curr_interval
-
-
-                            while len(intervals) > 0:
-                                tmp_interval = intervals[0]
-                                del intervals[0]
-                                
-
-                                #Le principal problème est que je dois faire un système de fusion,
-                                # tout en gardant l'intervalle d'origine.
-                                # Idée 1 : pour chaque interval, ajouter un attribut d'intervalle origin.
-                                # Idée 2 : Jouer sur les retours?
-                                curr_interval.compareAndFusion_strict(origin_dict, tmp_interval, dict_fusion)
-
-                                curr_list_intervals.append(tmp_interval)
-                                
-
-                                
-                            curr_list_intervals.append(curr_interval)
-                            intervals = curr_list_intervals
-                         
-                        dict_data[id_a][id_b][strand] = new_intervals
-                        """
                         
                         max_end_value_A = 0
                         max_end_value_B = 0

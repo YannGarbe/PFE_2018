@@ -38,7 +38,8 @@ class Parameters:
                             "'custom' allows the informations only if N overlappers are agree with each other." +
                             "'strict' allows the informations only if every overlappers are agree with each other.")
         #parser.add_argument('custom_number', metavar="CustomType", default="1" help="N number of overlapppers for the custom option")
-        parser.add_argument('-s', '--stats', action='store_true', help="Display statistics about the input files")        
+        parser.add_argument('-s', '--stats', action='store_true', help="Display statistics about the input files")
+        parser.add_argument('-all', '--get_all', action='store_true', help="Get all the intervals in a custom, max, or strict analysis")        
         parser.add_argument("output", metavar="OutputType", default="mhap", choices=["hisea", "mhap", "paf"],
                             help="The extension of the created output file. It can be either 'hisea', 'mhap' or 'paf'")
         parser.add_argument("files", metavar="InputFiles", nargs="+",

@@ -4,7 +4,7 @@ import os,sys,inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0,parentdir)
-from misc.IteratorTools import *
+from misc.AnalysisTools import *
 
 
 """This class writes the data dictionnary in a specific file (depending on the file type."""
@@ -17,7 +17,7 @@ class OutputWriter:
         Attributes
             dict_data: the data dictionnary  
         """
-        tools = IteratorTools()
+        tools = AnalysisTools()
         file = open("../Output/Mhap-" + str(datetime.datetime.now().time()) + ".mhap", "w")
         for id_a in dict_data:
             for id_b in dict_data[id_a]:
@@ -56,7 +56,7 @@ class OutputWriter:
         Attributes
             dict_data: the data dictionnary  
         """
-        tools = IteratorTools()
+        tools = AnalysisTools()
         file = open("../Output/Paf-" + str(datetime.datetime.now().time()) + ".paf", "w")
         for id_a in dict_data:
             for id_b in dict_data[id_a]:

@@ -9,7 +9,8 @@ sys.path.insert(0,parentdir)
 from read.Parameters import Parameters
 from read.ReadFiles import ReadFiles
 
-class IteratorTools:
+"""This class contains some tools methods"""
+class AnalysisTools:
     def sort_Intervals_start(self, intervals, startA):
         """Sort the interval list by the start index
         
@@ -46,8 +47,6 @@ class IteratorTools:
 
     def retrieve_id_strict_analysis(self, filespath, max_interval_N, cover_N, list_id_N):
         for i in range(len(cover_N)):
-
-
             if len(cover_N[i]) == max_interval_N:
                 for curr_filepath in filespath:
                     curr_filename = curr_filepath.split("/")[-1]

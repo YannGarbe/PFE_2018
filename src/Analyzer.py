@@ -1,9 +1,14 @@
 import sys
 from read.Parameters import Parameters
 from read.ReadFiles import ReadFiles
-from analysis_types.Iterator import *
-from misc.IteratorTools import *
+from misc.AnalysisTools import *
 from write.OutputWriter import *
+
+from analysis_types.CustomAnalysis import *
+from analysis_types.GentleAnalysis import *
+from analysis_types.MaxAnalysis import *
+from analysis_types.StrictAnalysis import *
+from analysis_types.StatisticsAnalysis import *
 
 class Analyzer:
     pass
@@ -13,7 +18,6 @@ def main(args):
     
     parameters = Parameters()
     readFiles = ReadFiles()
-    iterator = Iterator()
     parser = parameters.complete_analyze(sys.argv[1:])
     outputWriter = OutputWriter()
     
@@ -30,7 +34,7 @@ def main(args):
     #iterator.detect_overlaps(dict_data)
     
 
-    tools = IteratorTools()
+    tools = AnalysisTools()
 
     for i_interval in tools.sort_Intervals_start(dict_data['1']['6696']['+'], True):
         print(i_interval.toStringInterval())
@@ -38,11 +42,16 @@ def main(args):
     print("=============================")
     
     if parser.analysis == "gentle":
-        dict_data = iterator.gentle_detection(dict_data)
+        analysis = GentleAnalysis()
+        dict_data = analysis.analyse_data(dict_data)
+
     elif parser.analysis == "strict":
-        dict_data = iterator.strict_detection(dict_data, parser.files)
+        analysis = StrictAnalysis()
+        print(parser.get_all)
+        dict_data = analysis.analyse_data(dict_data, parser.files, parser.get_all)
     elif parser.analysis == "max":
-        dict_data = iterator.strict_detection(dict_data, parser.files)
+        analysis = MaxAnalysis()
+        dict_data = analysis.analyse_data(dict_data, parser.files, parser.get_all)
         
     print("=============================")
 
@@ -51,7 +60,8 @@ def main(args):
 
     # If the stat option is enabled, print some statistics about the files
     if parser.stats is True :
-        print(iterator.statistics(dict_data, parser.files))
+        statAnalyser = StatisticsAnalysis()
+        print(statAnalyser.statistics(dict_data, parser.files))
 
     if parser.output == "mhap":
         #outputWriter.outputMhap(dict_data)
