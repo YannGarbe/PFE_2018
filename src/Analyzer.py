@@ -54,6 +54,10 @@ def main(args):
         analysis = MaxAnalysis()
         dict_data = analysis.analyse_data(dict_data, parser.files, parser.get_all)
         
+    elif parser.analysis == "custom":
+        analysis = CustomAnalysis()
+        dict_data = analysis.analyse_data(dict_data, parser.files, parser.moreThan, parser.lessThan, parser.equalsTo, parser.get_all)
+    
     print("=============================")
 
     for i_interval in dict_data['1']['6696']['+']:

@@ -59,7 +59,6 @@ class AnalysisTools:
             list_id_N : the old list of ids
     
     """
-
     def retrieve_id_strict_analysis(self, filespath, max_interval_N, cover_N, list_id_N):
         for i in range(len(cover_N)):
             if len(cover_N[i]) == max_interval_N:
@@ -79,9 +78,50 @@ class AnalysisTools:
         """Returns the new list of ids"""
         return list_id_N
 
-    def retrieve_id_max_analysis(self, max_interval_N, cover_N, list_id_N):
+    """Get all the ids where N overlappers detected an interval
+
+        Attributes:
+            filespath : the path of the files (overlappers)
+            max_interval_N : the maximum number of intervals
+            cover_N : the coverage curve
+            list_id_N : the old list of ids
+    
+    """
+    def retrieve_id_equals_analysis(self, equals_interval_N, cover_N, list_id_N):
         for i in range(len(cover_N)):
-            if len(cover_N[i]) == max_interval_N:
+            if len(cover_N[i]) == equals_interval_N:
+                list_id_N.append(i)
+        """Returns the new list of ids"""
+        return list_id_N
+
+    """Get all the ids where  more than N overlappers detected an interval
+
+        Attributes:
+            filespath : the path of the files (overlappers)
+            max_interval_N : the maximum number of intervals
+            cover_N : the coverage curve
+            list_id_N : the old list of ids
+    
+    """
+    def retrieve_id_more_analysis(self, more_interval_N, cover_N, list_id_N):
+        for i in range(len(cover_N)):
+            if len(cover_N[i]) > more_interval_N:
+                list_id_N.append(i)
+        """Returns the new list of ids"""
+        return list_id_N
+
+    """Get all the ids where less than N overlappers detected an interval
+
+        Attributes:
+            filespath : the path of the files (overlappers)
+            max_interval_N : the maximum number of intervals
+            cover_N : the coverage curve
+            list_id_N : the old list of ids
+    
+    """
+    def retrieve_id_less_analysis(self, less_interval_N, cover_N, list_id_N):
+        for i in range(len(cover_N)):
+            if len(cover_N[i]) < less_interval_N:
                 list_id_N.append(i)
         """Returns the new list of ids"""
         return list_id_N

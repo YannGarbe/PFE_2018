@@ -1,6 +1,7 @@
 #!/bin/sh
 #Répertoire courant
 rm -rf __pycache__/
+rm -rf .pytest_cache/
 #Répertoire misc
 cd misc
 rm -rf __pycache__/

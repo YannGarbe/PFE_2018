@@ -22,7 +22,7 @@ class MaxAnalysis:
                 for strand in dict_data[id_a][id_b]:
                     intervals = dict_data[id_a][id_b][strand]
                     if len(intervals) > 1:
-                        intervals = tools.sort_Intervals_start(intervals, True)
+                        intervals = tools.remove_duplicates_interval(tools.sort_Intervals_start(intervals, True))
 
                         max_end_value_A = 0
                         max_end_value_B = 0
@@ -73,8 +73,8 @@ class MaxAnalysis:
                         
                         # Get the intervals list
                         # > Récupération sous la forme de liste de toutes positions avec une longueur maximale ayant au moins un intervalle par overlapper
-                        list_id_A = tools.retrieve_id_max_analysis(max_interval_A, cover_A, list_id_A)
-                        list_id_B = tools.retrieve_id_max_analysis(max_interval_B, cover_B, list_id_B)
+                        list_id_A = tools.retrieve_id_equals_analysis(max_interval_A, cover_A, list_id_A)
+                        list_id_B = tools.retrieve_id_equals_analysis(max_interval_B, cover_B, list_id_B)
                         
                         # Vérification que les deux listes se soient pas vides
                         if len(list_id_A) > 0 and len(list_id_B) > 0:

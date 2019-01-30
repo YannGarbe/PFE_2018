@@ -69,22 +69,22 @@ class Parameters:
 
     def additionnalAnalysis(self, parser):
         if parser.analysis == "custom" and parser.moreThan is None and parser.lessThan is None and parser.equalsTo is None:
-            print("Error")
+            raise ParameterError("custom analysis is asked without a 'moreThan' (-m), a 'lessThan' (-l) or a 'equalsTo' (-e)")
         
         if parser.moreThan is not None:
             if parser.lessThan is not None or parser.equalsTo is not None:
-                print("Error")
-            if parser.moreThan < 0:
-                print("Error")
+                raise ParameterError("custom analysis is asked with 2 options or more. Only one is needed")
+            if int(parser.moreThan) < 0:
+                raise ParameterError("custom analysis is asked with the 'moreThan' option but the value is negative")
         
         if parser.lessThan is not None:
             if parser.moreThan is not None or parser.equalsTo is not None:
-                print("Error")
-            if parser.lessThan < 1:
-                print("Error")
+                raise ParameterError("custom analysis is asked with 2 options or more. Only one is needed")
+            if int(parser.lessThan) < 1:
+                raise ParameterError("custom analysis is asked with the 'lessThan' option but the value is less than 1")
 
         if parser.equalsTo is not None:
             if parser.lessThan is not None or parser.moreThan is not None:
-                print("Error")
-            if parser.equalsTo < 1:
-                print("Error")
+                raise ParameterError("custom analysis is asked with 2 options or more. Only one is needed")
+            if int(parser.equalsTo) < 1:
+                raise ParameterError("custom analysis is asked with the 'equalsTo' option but the value is less than 1")
