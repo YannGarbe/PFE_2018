@@ -12,9 +12,8 @@
 
 ### Général
 
-- Ajouter un paramètre dans le programme :
-    - "custom N" : accepte l'intervalle couvert par N overlappers
-
+- Refactoring de code
+- Amélioration des warnings
 - QoL sur l'utilisation du programme
 - **Refaire tous les tests**
 
@@ -38,6 +37,7 @@
     - Type gentle ajouté
     - Type strict ajouté (avec option get_all)
     - Type max ajouté (avec option get_all)
+    * Type custom ajouté (avec option get_all, moreThan, lessThan et equalsTo)
 
 - Sorties :
     - Paf
