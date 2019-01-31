@@ -131,18 +131,28 @@ class AnalysisTools:
         new_interval_list = []
         known_interval_list = []
 
-        for curr_interval in interval_list:
+        #For each interval in the list
+        for i in range(0, len(interval_list)):
+            curr_interval = interval_list[i]
             duplicate_detected = False
-            for toCompare_interval in interval_list:
-                if curr_interval.getFilename() == toCompare_interval.getFilename() and curr_interval not in known_interval_list and toCompare_interval not in known_interval_list:
+            #We compare is the curr_interval has the same filename than the compared interval
+            for j in range(0, len(interval_list)):
+                toCompare_interval = interval_list[j]
+                #Check if we have already checked the intervals
+
+                if i != j and curr_interval.getFilename() == toCompare_interval.getFilename() and curr_interval not in known_interval_list and toCompare_interval not in known_interval_list:
+                    #Get the longuer interval
                     if curr_interval.getLength_A() >= toCompare_interval.getLength_A():
                         max_interval = curr_interval
                     else:
                         max_interval = toCompare_interval
+                    duplicate_detected = True
                     known_interval_list.append(toCompare_interval)
-            known_interval_list.append(curr_interval)
-            if duplicate_detected:
+            
+            #If we detected a duplicate, we add the longer in the new list, otherwise we add the current interval
+            if duplicate_detected is True:
                 new_interval_list.append(max_interval)
-            else:
+            elif curr_interval not in known_interval_list:
                 new_interval_list.append(curr_interval)
+                known_interval_list.append(curr_interval)
         return new_interval_list

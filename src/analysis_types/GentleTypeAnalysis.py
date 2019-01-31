@@ -9,7 +9,7 @@ from misc.AnalysisTools import *
 from misc.Interval import *
 
 """This class implements the gentle analysis, where all the intervals are accepted"""
-class GentleAnalysis:
+class GentleTypeAnalysis:
 
     def analyse_data(self, dict_data):
         tools = AnalysisTools()

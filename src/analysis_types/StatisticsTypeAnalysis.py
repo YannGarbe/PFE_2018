@@ -13,7 +13,7 @@ from misc.AnalysisTools import *
 from misc.Interval import *
 
 """This class implements the statistic analysis of the data"""
-class StatisticsAnalysis:
+class StatisticsTypeAnalysis:
 
     def statistics(self, dict_data, filespath):
         """Iterates through the triple hashmap of itervals to make some statistics.

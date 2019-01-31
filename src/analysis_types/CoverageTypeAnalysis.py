@@ -1,27 +1,22 @@
 import sys
 import math
+
 from collections import defaultdict
 
-import os
-import sys
-import inspect
-currentdir = os.path.dirname(os.path.abspath(
-    inspect.getfile(inspect.currentframe())))
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
-sys.path.insert(0, parentdir)
+sys.path.insert(0,parentdir)
 
 from read.Parameters import Parameters
 from read.ReadFiles import ReadFiles
 from misc.AnalysisTools import *
 from misc.Interval import *
-from misc.MyExceptions import *
+from misc.MyWarnings import *
 
-"""This class implements the gentle analysis, where the intervals are accepted once every overlappers detect them"""
+class CoverageTypeAnalysis:
 
-
-class StrictAnalysis:
-
-    def analyse_data(self, dict_data, filespath, get_all):
+    def analyse_data(self, dict_data, filespath, analysis_type, custom_type_value, get_all):
         tools = AnalysisTools()
         for id_a in dict_data:
             for id_b in dict_data[id_a]:
@@ -57,44 +52,46 @@ class StrictAnalysis:
                             for i in range(curr_interval.getStart_B(), curr_interval.getEnd_B()):
                                 cover_B[i].append(curr_interval)
 
-                        #
-                        max_interval_A = 0
-                        max_interval_B = 0
-
                         list_id_A = []
                         list_id_B = []
 
                         # Get max
                         # Récupération de la longueur maximale des listes
-                        for i_intervals in cover_A:
-                            if len(i_intervals) > max_interval_A:
-                                max_interval_A = len(i_intervals)
+                        if analysis_type < 10:
+                            max_interval_A = 0
+                            max_interval_B = 0
+                            for i_intervals in cover_A:
+                                if len(i_intervals) > max_interval_A:
+                                    max_interval_A = len(i_intervals)
 
-                        for i_intervals in cover_B:
-                            if len(i_intervals) > max_interval_B:
-                                max_interval_B = len(i_intervals)
+                            for i_intervals in cover_B:
+                                if len(i_intervals) > max_interval_B:
+                                    max_interval_B = len(i_intervals)
 
                         # Empty the current list of intervals
                         del dict_data[id_a][id_b][strand][:]
 
-                        # Analyse A
-                        # > Vérification que la longueur maximale soit au moins égale au nombre d'overlappers
 
-                        if max_interval_A >= len(filespath) and max_interval_B >= len(filespath):
-                            # Treat the several interval case (need more details)
 
-                            # If the function detects several intervals from one overlappers
-
-                            if max_interval_A > len(filespath) or max_interval_A > len(filespath):
-                                print(
-                                    "Warning : One or several overlappers created several intervals for one intersection")
-                            # Get the intervals list
-                            # > Récupération sous la forme de liste de toutes positions avec une longueur maximale ayant au moins un intervalle par overlapper
-                            list_id_A = tools.retrieve_id_strict_analysis(
-                                filespath, max_interval_A, cover_A, list_id_A)
-                            list_id_B = tools.retrieve_id_strict_analysis(
-                                filespath, max_interval_B, cover_B, list_id_B)
-
+                        #Check the analysis. If the type is a Strict analysis, we need to check if the max found is equals to the number of the overlappers
+                        if (analysis_type != 0) or (max_interval_A == len(filespath) and max_interval_B == len(filespath)):
+                           # Get the intervals list 
+                            if analysis_type == 0:
+                                list_id_A = tools.retrieve_id_strict_analysis(filespath, max_interval_A, cover_A, list_id_A)
+                                list_id_B = tools.retrieve_id_strict_analysis(filespath, max_interval_B, cover_B, list_id_B)
+                            elif analysis_type == 1:
+                                list_id_A = tools.retrieve_id_equals_analysis(max_interval_A, cover_A, list_id_A)
+                                list_id_B = tools.retrieve_id_equals_analysis(max_interval_B, cover_B, list_id_B)
+                            elif analysis_type > 10:
+                                if analysis_type == 11:
+                                    list_id_A = tools.retrieve_id_more_analysis(custom_type_value, cover_A, list_id_A)
+                                    list_id_B = tools.retrieve_id_more_analysis(custom_type_value, cover_B, list_id_B)
+                                elif analysis_type == 12:
+                                    list_id_A = tools.retrieve_id_less_analysis(custom_type_value, cover_A, list_id_A)
+                                    list_id_B = tools.retrieve_id_less_analysis(custom_type_value, cover_B, list_id_B)
+                                else:
+                                    list_id_A = tools.retrieve_id_equals_analysis(custom_type_value, cover_A, list_id_A)
+                                    list_id_B = tools.retrieve_id_equals_analysis(custom_type_value, cover_B, list_id_B)
                             # Vérification que les deux listes se soient pas vides
                             if len(list_id_A) > 0 and len(list_id_B) > 0:
 
@@ -235,4 +232,6 @@ class StrictAnalysis:
                                 else:
                                     raise UnknownError("Unexcpected Error : ", len(list_starts_A), ", ", len(
                                         list_ends_A), " and ", len(list_lengths_A), " should have been equal.")
+                        elif max_interval_A > len(filespath) or max_interval_B > len(filespath):
+                            warning_max_interval_greater_than_length_overlappers(intervals, filespath)
         return dict_data
