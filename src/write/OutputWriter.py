@@ -61,7 +61,6 @@ class OutputWriter:
                     intervals=dict_data[id_a][id_b][strand]
                     intervals=tools.sort_Intervals_start(intervals, True)
                     for i_interval in intervals:
-
                         strand_A=0
                         strand_B=0
                         if i_interval.getStrand() == '-':
@@ -82,6 +81,7 @@ class OutputWriter:
                         "" + str(i_interval.getLength_B()) + "\n")
 
                         file.write(interval_line)
+                    del dict_data[id_b][id_a][strand][:]
         file.close()
 
 
@@ -118,4 +118,5 @@ class OutputWriter:
                         "" + "/" + "\t"
                         "" + "/" + "\n")
                         file.write(interval_line)
+                    del dict_data[id_b][id_a][strand][:]
         file.close()

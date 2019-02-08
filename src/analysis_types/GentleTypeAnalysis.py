@@ -21,7 +21,7 @@ class GentleTypeAnalysis:
                         intervals = tools.sort_Intervals_start(intervals, True)
 
                         i_max_run = len(intervals)
-                        
+
                         #Loop to be sure to catch all the possibilities
                         # (In case a interval is not compatible at T0, 
                         #   but is at T1 because the curr_interval would be not the same)
