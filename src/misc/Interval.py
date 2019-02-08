@@ -152,8 +152,8 @@ class Interval:
 
     def toStringInterval(self):
         return ""+self.filename+": [id_A] : "+str(self.id_A)+"| [id_B] : "+str(self.id_B) + \
-            "| [Length_A] : "+str(self.length_A)+"| [Length_B] : "+str(self.length_B) + \
             "| [Strand] : "+str(self.strand) + \
+            "| [Length_A] : "+str(self.length_A)+"| [Length_B] : "+str(self.length_B) + \
             "| [Start_A] : "+str(self.start_A)+"| [Start_B] : "+str(self.start_B) + \
             "| [End_A] : "+str(self.end_A)+"| [End_B] : "+str(self.end_B)
 

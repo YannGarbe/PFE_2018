@@ -8,50 +8,59 @@
 
 - Pierre Marijon de l'équipe Bonsai - CRIStAL
 
-## TODO
-
-### Général
-
-- Refactoring de code
-- Amélioration des warnings
-- QoL sur l'utilisation du programme
-- **Refaire tous les tests**
-
-- (remarque quand on a des exceptions relevées, bien indiquer au moins le fichier concerné.)
-
-## DONE
-
-- Faire des recherches sur les hashMap
-- Créer un objet interval
-- Utilisation d'une triple hashmap
-
-- Trier les intervalles par start_A croissant
-
-- Ajouter un paramètre "--stats" qui permet d'afficher quelques informations dans le terminal :
-    - Le pourcentage de dépendances entre les fichiers de données
-    - La moyenne d'intervalles entre les fichiers d'entrée
-    - La moyenne d'intervalles cohérent entre les fichiers d'entrée
-    - La moyenne d'intervalles venant du même fichier
-
-- Analyses :
-    - Type gentle ajouté
-    - Type strict ajouté (avec option get_all)
-    - Type max ajouté (avec option get_all)
-    * Type custom ajouté (avec option get_all, moreThan, lessThan et equalsTo)
-
-- Sorties :
-    - Paf
-    - Mhap
-
-- Option :
-    - Stats pour avoir quelques statistiques sur les données
     - get_all afin d'obtenir l tous les intervals et non le plus long
 
-## Infos complémentaires
+## HOW TO
+
+### Français
+
+Le but de ce programme est de réaliser différents types d'assemblage d'analyses d'overlappers.
+
+Pour lancer le programme, placez-vous dans le répertoire `src` et lancer le fichier `Analyser.py` avec python.
+
+#### Paramètres d'entrée
+
+Voici les paramètres principaux : 
+
+- `Analyse type` [gentle, strict, max, custom]: le type d'analyse à réaliser. Cela peut être gentle, strict, max ou custom (voir le point `Les Types d'analyses` pour avoir plus d'informations sur ces analyses)
+
+- `Output type` [paf, mhap, hisea]: le type de fichier de retour. Cela peut être paf, mhap ou hisea (note : hisea n'est pas implémenté pour le moment)
+
+- `Input files` [chemins]: les différents fichiers d'entrées à analyser : ils ne peuvent être que d'extension mhap et paf pour le moment.
+
+D'autres paramètres peuvent également être utilisés :
+
+- `Statistics` [--stats / -s]: Permet, au lieu d'effectuer une analyse, d'afficher certaines statistiques sur les fichiers d'entrée
+
+- `Get all` [--get_all / -all]: Utilisable uniquement pour les analyses strict, max et custom. Par défaut, c'est analyse retourne l'intervalle le plus long parmis tous ceux qui valident les critères d'acceptation. Cette option prend en compte tous les intervalle au lieu de prendre uniquement le plus grand.
+
+- `More than` [--moreThan / -m <VALUE>]: Utilisable uniquement pour les analyses custom. Spécifie l'analyse de ne valider les intervalles que si plus de <VALUE> overlappers l'ont détecté.
+
+- `Less than` [--lessThan / -l <VALUE>]: Utilisable uniquement pour les analyses custom. Spécifie l'analyse de ne valider les intervalles que si moins de <VALUE> overlappers l'ont détecté.
+
+- `Equals to` [--equalsThan / -e <VALUE>]: Utilisable uniquement pour les analyses custom. Spécifie l'analyse de ne valider les intervalles que exactement <VALUE> overlappers l'ont détecté.
+
+#### Les types d'analyses
+
+- `Gentle` : Analyse acceptant tous les intervalles des overlappers. Les intervalles sont fusionnés s'il est possible de le faire.
+
+- `Strict` : Analyse acceptant les intervalles uniquement repérés par tous les overlappers (soit les fichiers passés en paramètres du programme). Si plusieurs intervalles 
+
+- `Max` :
+
+- `Custom` : `
+
+#### Comment ajouter des nouveaux types de fichier d'entrée
+
+#### Comment ajouter des nouveaux types de fichier de sortie
+
+
+
+### English
+
+## Informations complémentaires
 
 ### Général
-
-Créer une classe qui garde les informations importantes
 
 - Table de hash qui avec A > Tous les overlaps de A
 - Table [Read A][Read B][+] > Tableau d'objets contenant l'overlap

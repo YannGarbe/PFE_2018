@@ -20,28 +20,6 @@ class GentleTypeAnalysis:
                     if len(intervals) > 1:
                         intervals = tools.sort_Intervals_start(intervals, True)
 
-                        # Plusieurs points :
-                        #   > Pour qu'une fusion soit accepté, il faut que les deux intervalles
-                        #       soit cohérents au niveau du read A et du read B
-                        #   > Si deux intervalles sont cohérent uniquement pour le read A et non pour le read B
-                        #       ne pas le prendre en compte
-                        #   > Si deux intervalles viennent du même fichier, on calcul chacun l'intervalle le plus grand.
-                        #       On prend seulement le plus grand
-                        #   > Pas le cas ici (gerer le cas ou le premier interval n'est pas le bon)
-                        
-                        #Il faut reboucler tant que l'on a pas une fusion totale des choses.
-                        #A la fin de chaque boucle, tout ce qui n'a pas été fusionné ressort avant.
-                        # A B C C.
-                        #   > B C C. | A
-                        #   > C C. | A ? B
-                        #   > C C. B
-                        # B C C A
-                        #   > C C A. | B
-                        #   > C A. | B ? C
-                        #   > C A. C | B
-                        #   > A. C C |
-                        # C C A B
-                        # 
                         i_max_run = len(intervals)
                         
                         #Loop to be sure to catch all the possibilities
@@ -50,7 +28,6 @@ class GentleTypeAnalysis:
                         for _ in range(0, i_max_run):
                         
                             interval_max = intervals[0]
-                            #print(interval_max.toStringInterval())
                             #Retrieves the first element of the list and moves it away
                             curr_list_intervals = []
                             del intervals[0]

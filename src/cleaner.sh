@@ -17,3 +17,8 @@ cd ..
 #Répertoire write
 cd write
 rm -rf __pycache__/
+cd ..
+#Répertoire tests
+cd tests
+rm -rf __pycache__/
+rm -rf .pytest_cache
