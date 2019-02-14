@@ -23,11 +23,15 @@ class CoverageTypeAnalysis:
             for id_b in dict_data[id_a]:
                 for strand in dict_data[id_a][id_b]:
                     intervals = dict_data[id_a][id_b][strand]
+                    
                     if len(intervals) > 1:
                         intervals = tools.remove_duplicates_interval(tools.sort_Intervals_start(intervals, True))
-
+                        
+                        
                         max_end_value_A = 0
                         max_end_value_B = 0
+                        read_length_A = intervals[0].getLength_A()
+                        read_length_B = intervals[0].getLength_B()
 
                         # Get the max end value
                         # Récupération de la valeur de fin minimale
@@ -72,11 +76,9 @@ class CoverageTypeAnalysis:
                         # Empty the current list of intervals
                         del dict_data[id_a][id_b][strand][:]
 
-
-
                         #Check the analysis. If the type is a Strict analysis, we need to check if the max found is equals to the number of the overlappers
                         if (analysis_type != 0) or (max_interval_A == len(filespath) and max_interval_B == len(filespath)):
-                           # Get the intervals list 
+                           # Get the intervals list
                             if analysis_type == 0:
                                 list_id_A = tools.retrieve_id_strict_analysis(filespath, max_interval_A, cover_A, list_id_A)
                                 list_id_B = tools.retrieve_id_strict_analysis(filespath, max_interval_B, cover_B, list_id_B)
@@ -94,8 +96,9 @@ class CoverageTypeAnalysis:
                                     list_id_A = tools.retrieve_id_equals_analysis(custom_type_value, cover_A, list_id_A)
                                     list_id_B = tools.retrieve_id_equals_analysis(custom_type_value, cover_B, list_id_B)
                             # Vérification que les deux listes se soient pas vides
+                            print(len(list_id_A), " VS ", len(list_id_B))
                             if len(list_id_A) > 0 and len(list_id_B) > 0:
-
+                                
                             # Now almost everything is done. We only need to get the longest interval
 
                                 list_starts_A = []
@@ -125,7 +128,8 @@ class CoverageTypeAnalysis:
                                             list_ends_A.append(list_id_A[i])
                                             list_lengths_A.append(curr_length)
                                     curr_length = curr_length + 1
-
+                                        
+                                
                                 curr_length = 0
                                 for i in range(len(list_id_B)):
                                     if i == 0:
@@ -133,16 +137,17 @@ class CoverageTypeAnalysis:
                                     else:
                                         if list_id_B[i] != (list_id_B[i-1] + 1):
                                             # it's a different interval
-                                            list_ends_B.append(list_id_A[i-1])
-                                            list_starts_B.append(list_id_A[i])
+                                            list_ends_B.append(list_id_B[i-1])
+                                            list_starts_B.append(list_id_B[i])
                                             list_lengths_B.append(curr_length)
                                             curr_length = 0
                                         elif i == len(list_id_B)-1:
-                                            curr_length = curr_length
+                                            curr_length = curr_length + 1
                                             list_ends_B.append(list_id_B[i])
                                             list_lengths_B.append(curr_length)
+                                        
                                     curr_length = curr_length + 1
-                                    
+                                
                                 # Guardrail : check if all the lists have the same length
                                 # We take the longer intervals among those we found
                                 
@@ -153,29 +158,24 @@ class CoverageTypeAnalysis:
                                             
                                             for i in range(len(list_lengths_B)):
                                                 new_interval=Interval(
-                                                    "", id_a, id_b, strand, "", "", "", "", "", "")
+                                                    filespath[0], id_a, id_b, strand, read_length_A, read_length_B, "", "", "", "")
                                                 
                                                 new_interval.setStart_A(
                                                     str(list_starts_A[i]))
                                                 new_interval.setEnd_A(
                                                     str(list_ends_A[i]+1))
-                                                new_interval.setLength_A(
-                                                    str(list_lengths_A[i]+1))
-                                                
                                                 
                                                 new_interval.setStart_B(
                                                     str(list_starts_B[i]))
                                                 new_interval.setEnd_B(
                                                     str(list_ends_B[i]+1))
-                                                new_interval.setLength_B(
-                                                    str(list_lengths_B[i]+1))
                                                 new_list_interval.append(new_interval)
 
                                         else:
                                             
                                             for i in range(len(list_lengths_A)):
                                                 new_interval=Interval(
-                                                    "", id_a, id_b, strand, "", "", "", "", "", "")
+                                                    filespath[0], id_a, id_b, strand, read_length_A, read_length_B, "", "", "", "")
                                                 
                                                 new_interval.setStart_A(
                                                     str(list_starts_A[i]))
@@ -192,13 +192,13 @@ class CoverageTypeAnalysis:
                                                 new_interval.setLength_B(
                                                     str(list_lengths_B[i]+1))
                                                 new_list_interval.append(new_interval)
-                                        
+                                            
                                         dict_data[id_a][id_b][strand] = new_list_interval
 
                                     else:
 
                                         new_interval=Interval(
-                                            "", id_a, id_b, strand, "", "", "", "", "", "")
+                                            filespath[0], id_a, id_b, strand, read_length_A, read_length_B, "", "", "", "")
 
                                         # Finally check the max
                                         # Get the longest interval
@@ -206,27 +206,30 @@ class CoverageTypeAnalysis:
                                         for i_length in list_lengths_A:
                                             if max_length < i_length:
                                                 max_length=i_length
+                                        
                                         for i in range(len(list_lengths_A)):
+                                            
                                             if list_lengths_A[i] == max_length:
                                                 new_interval.setStart_A(
                                                     str(list_starts_A[i]))
                                                 new_interval.setEnd_A(
                                                     str(list_ends_A[i]+1))
-                                                new_interval.setLength_A(
-                                                    str(list_lengths_A[i]+1))
 
+                                        max_length=0
                                         for i_length in list_lengths_B:
                                             if max_length < i_length:
                                                 max_length=i_length
                                         for i in range(len(list_lengths_B)):
+                                            
                                             if list_lengths_B[i] == max_length:
                                                 new_interval.setStart_B(
                                                     str(list_starts_B[i]))
                                                 new_interval.setEnd_B(
                                                     str(list_ends_B[i]+1))
-                                                new_interval.setLength_B(
-                                                    str(list_lengths_B[i]+1))
+                                                
 
+                                            
+                                        
                                         # And add the interval in the dictionnary
                                         dict_data[id_a][id_b][strand].append(
                                             new_interval)

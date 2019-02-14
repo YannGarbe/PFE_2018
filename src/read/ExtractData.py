@@ -23,21 +23,9 @@ class ExtractData :
 
         filename = filepath.split("/")[-1]
         
-        cpt = 0
         #Open the file with the csv function
-        """
-        with open(filepath, "r") as f:
-            reader = csv.reader(f, delimiter=chr(int(config_file_type[1])))
-            #For each line in the file, call the extract method
-            
-            for _, line in enumerate(reader):
-                print(cpt)
-                cpt = cpt+1
-            
-                self.verify_length(line, config_file_type[2], filename)
-                dict_data = self.extract(dict_data, line, filename, config_file_type)
-        """
         for df in pd.read_csv(filepath,sep=chr(int(config_file_type[1])), header = None, chunksize=1):
+            self.verify_length(df.shape[1], config_file_type[2], filename)
             dict_data = self.extract(dict_data, df, filename, config_file_type)
         """Return the updated triple hashmap with the right informations"""
         return dict_data
@@ -124,6 +112,6 @@ class ExtractData :
         return dict_data
 
     def verify_length(self, line, nb_fields, filename):
-        if len(line) < int(nb_fields):
+        if line < int(nb_fields):
             raise BadFormatFileError(filename + " : not enough fields.\nThe fields : " + str(line))
 

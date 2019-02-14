@@ -11,8 +11,6 @@ sys.path.insert(0, parentdir)
 
 
 """This class writes the data dictionnary in a specific file (depending on the file type."""
-
-
 class OutputWriter:
 
     def __init__(self, analysis_type):

@@ -1,7 +1,5 @@
 
 """self class store the overlap informations between two reads, A and B"""
-
-
 class Interval:
 
     def __init__(self, filename, id_A, id_B, strand,

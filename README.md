@@ -61,8 +61,8 @@ Afin d'ajouter des nouveau types de fichier d'entrée, il suffit de modifier le 
 | nb_fields       | Nombre de champs minimals pour le fichier soit accepté.               |
 | id_A_field      | Numéro de champ contenant l'id du read A.                             |
 | id_B_field      | Numéro de champ contenant l'id du read B.                             |
-| length_A_field  | Numéro de champ contenant la longueur de la séquence du read A.       |
-| length_B_field  | Numéro de champ contenant la longueur de la séquence du read B.       |
+| length_A_field  | Numéro de champ contenant la longueur du read A.                      |
+| length_B_field  | Numéro de champ contenant la longueur du read B.                      |
 | start_A_field   | Numéro de champ contenant l'indice de début de la séquence du read A. |
 | start_B_field   | Numéro de champ contenant l'indice de début de la séquence du read B. |
 | end_A_field     | Numéro de champ contenant l'indice de fin de la séquence du read A.   |
@@ -135,8 +135,8 @@ In order to add new input file types, it is sufficient to modify the file `allow
 | nb_fields       | Minimum number of fields to accept the file.                          |
 | id_A_field      | Field number containing the ID of the read A.                         |
 | id_B_field      | Field number containing the ID of the read B.                         |
-| length_A_field  | Field number containing the length of the read A sequence.            |
-| length_B_field  | Field number containing the length of the read B sequence.            |
+| length_A_field  | Field number containing the length of the read A.                     |
+| length_B_field  | Field number containing the length of the read B.                     |
 | start_A_field   | Field number containing the start index of the read A sequence.       |
 | start_B_field   | Field number containing the start index of the read B sequence.       |
 | end_A_field     | Field number containing the end index of the read A sequence.         |

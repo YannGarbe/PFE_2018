@@ -53,13 +53,11 @@ class Test_args(unittest.TestCase):
         res = parameters.check_files(files)
         self.assertEqual(files, res)
         
-    """
     def test_check_files_files_bad_extension(self):
         parameters = Parameters()
         files = ['../../data/test.mhap', '../../data/test.hisea', 'idea.txt']
         with self.assertRaises(BadExtensionError):
             parameters.check_files(files)
-    """
     
     def test_check_files_files_bad_extension(self):
         parameters = Parameters()

@@ -121,7 +121,7 @@ class AnalysisTools:
     """
     def retrieve_id_less_analysis(self, less_interval_N, cover_N, list_id_N):
         for i in range(len(cover_N)):
-            if len(cover_N[i]) < less_interval_N:
+            if (len(cover_N[i]) < less_interval_N) and (len(cover_N[i]) > 0):
                 list_id_N.append(i)
         """Returns the new list of ids"""
         return list_id_N
