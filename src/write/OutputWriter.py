@@ -54,7 +54,6 @@ class OutputWriter:
             dict_data: the data dictionnary
         """
         tools = AnalysisTools()
-        print(self.analysis_type)
         file = open("../Output/Mhap-" + self.analysis_type + "-" +self.curr_complete_date + ".mhap", "w")
         for id_a in dict_data:
             for id_b in dict_data[id_a]:

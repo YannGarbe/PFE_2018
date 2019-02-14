@@ -28,7 +28,6 @@ def main(args):
             for strand in dict_data[id_a][id_b]:
                 count = count + len(dict_data[id_a][id_b][strand])
 
-    print("Taille ", count)
     if parser.stats is False:    
         tools = AnalysisTools()
 

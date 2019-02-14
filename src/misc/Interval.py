@@ -128,11 +128,10 @@ class Interval:
 
         # if other_interval.getId_A() == 1 and other_interval.getId_B() == 6696:
         #    print(self.getEnd_A(), " VS ", other_interval.getStart_A(), " Du coup : ", self.getEnd_A() >= other_interval.getStart_A())
-
+        
         if (self.getEnd_A() >= other_interval.getStart_A()) and (self.getStart_A() <= other_interval.getEnd_A()):
 
             if (self.getEnd_B() >= other_interval.getStart_B()) and (self.getStart_B() <= other_interval.getEnd_B()):
-
                 self.setStart_A(
                     min(self.getStart_A(), other_interval.getStart_A()))
                 self.setStart_B(

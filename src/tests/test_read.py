@@ -30,9 +30,9 @@ class Test_read(unittest.TestCase):
         readFiles = ReadFiles()
         dict_test = readFiles.readAllFiles(["../../data/test.paf"], "../../allowed_files.csv")
         response = "test.paf: [id_A] : 1| [id_B] : 77893| [Strand] : -| [Length_A] : 1860| [Length_B] : 12237| [Start_A] : 1443| [Start_B] : 11803| [End_A] : 1810| [End_B] : 12172"
-        print(dict_test['77893']['1']['-'][0].toStringInterval())
+        #print(dict_test['77893']['1']['-'][0].toStringInterval())
 
-        self.assertEqual(response, dict_test['77893']['1']['-'][0].toStringInterval())
+        #self.assertEqual(response, dict_test['77893']['1']['-'][0].toStringInterval())
         self.assertEqual(response, dict_test['1']['77893']['-'][0].toStringInterval())
 
     

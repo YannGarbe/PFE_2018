@@ -1,4 +1,5 @@
 import csv
+import pandas as pd
 from collections import defaultdict
 import os,sys,inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
@@ -22,14 +23,22 @@ class ExtractData :
 
         filename = filepath.split("/")[-1]
         
+        cpt = 0
         #Open the file with the csv function
+        """
         with open(filepath, "r") as f:
             reader = csv.reader(f, delimiter=chr(int(config_file_type[1])))
             #For each line in the file, call the extract method
+            
             for _, line in enumerate(reader):
+                print(cpt)
+                cpt = cpt+1
+            
                 self.verify_length(line, config_file_type[2], filename)
                 dict_data = self.extract(dict_data, line, filename, config_file_type)
-
+        """
+        for df in pd.read_csv(filepath,sep=chr(int(config_file_type[1])), header = None, chunksize=1):
+            dict_data = self.extract(dict_data, df, filename, config_file_type)
         """Return the updated triple hashmap with the right informations"""
         return dict_data
         
@@ -54,47 +63,63 @@ class ExtractData :
             config_file_type : contains the informations on the file type (the extension, the important fields, etc...)
         """
 
+        #Retrieve values
+        data_id_a = str(line[int(config_file_type[3])].values[0])
+        data_id_b = str(line[int(config_file_type[4])].values[0])
+        
+        data_length_A = str(line[int(config_file_type[5])].values[0]) #5
+        data_length_B = str(line[int(config_file_type[6])].values[0]) #6
+
+        data_start_A = str(line[int(config_file_type[7])].values[0]) #7
+        data_start_B = str(line[int(config_file_type[8])].values[0]) #8    
+        data_end_A = str(line[int(config_file_type[9])].values[0])   #9
+        data_end_B = str(line[int(config_file_type[10])].values[0])  #10
+        
+        
+
+        
         #Analyse the strand of the interval
         strand = ''
         if int(config_file_type[11]) == 1:
-            strand = line[int(config_file_type[12])]
+            strand = line[int(config_file_type[12])].values[0]
         else :
-            strand_A = int(line[int(config_file_type[12])])
-            strand_B = int(line[int(config_file_type[13])])
+            strand_A = int(line[int(config_file_type[12])].values[0])
+            strand_B = int(line[int(config_file_type[13])].values[0])
             if strand_A == strand_B:
                 strand = '+'
             else:
                 strand = '-'
-
+        
+        
         #Create an interval according to the config_file_type informations (which were in the allowed_files.csv file)
         tmp_interval = Interval(filename,
-        int(line[int(config_file_type[3])]), int(line[int(config_file_type[4])]),
+        int(data_id_a), int(data_id_b),
         strand,
-        int(line[int(config_file_type[5])]), int(line[int(config_file_type[6])]), 
-        int(line[int(config_file_type[7])]), int(line[int(config_file_type[8])]), 
-        int(line[int(config_file_type[9])]), int(line[int(config_file_type[10])]))
+        int(data_length_A), int(data_length_B), 
+        int(data_start_A), int(data_start_B), 
+        int(data_end_A), int(data_end_B))
         
-        if (line[int(config_file_type[4])] in dict_data) and (line[int(config_file_type[3])] in dict_data[line[int(config_file_type[4])]]) and (strand in dict_data[line[int(config_file_type[4])]][line[int(config_file_type[3])]]):
-            dict_data[line[int(config_file_type[4])]][line[int(config_file_type[3])]][strand].append(tmp_interval)
+        #If there are any entries in dict_data[id_b][id_a][strand], put it in there. Otherwise, put the interval in dict_data[id_a][id_b][strand]
+        if (data_id_b in dict_data) and (data_id_a in dict_data[data_id_b]) and (strand in dict_data[data_id_b][data_id_a]):
+            dict_data[data_id_b][data_id_a][strand].append(tmp_interval)
         else:
             #if 'read A' not in dict_data
             #Create the second hashmap if the key is new        
-            if line[int(config_file_type[3])] not in dict_data:
-                dict_data[line[int(config_file_type[3])]] = {} 
+            if data_id_a not in dict_data:
+                dict_data[data_id_a] = {} 
             
             #if 'read B' not in dict_data[read A]
             #Create the third hashmap if the key is new
-            if line[int(config_file_type[4])] not in dict_data[line[int(config_file_type[3])]]:
-                dict_data[line[int(config_file_type[3])]][line[int(config_file_type[4])]] = {}
+            if data_id_b not in dict_data[data_id_a]:
+                dict_data[data_id_a][data_id_b] = {}
             
             #if '+' not in dict_data[read A][read B]
             #Create the array if the interval is new in dict_data[read A][read B][+]
-            if strand not in dict_data[line[int(config_file_type[3])]][line[int(config_file_type[4])]] :
-                dict_data[line[int(config_file_type[3])]][line[int(config_file_type[4])]][strand] = []
+            if strand not in dict_data[data_id_a][data_id_b] :
+                dict_data[data_id_a][data_id_b][strand] = []
             
             #Add the interval in the triple hashmap
-            dict_data[line[int(config_file_type[3])]][line[int(config_file_type[4])]][strand].append(tmp_interval)
-            
+            dict_data[data_id_a][data_id_b][strand].append(tmp_interval)
         
         return dict_data
 
