@@ -18,7 +18,7 @@ def main(args):
     readFiles = ReadFiles()
     parser = parameters.complete_analyze(sys.argv[1:])
     parameters.additionnalAnalysis(parser)
-    outputWriter = OutputWriter()
+    outputWriter = OutputWriter(parser.analysis)
 
     dict_data = readFiles.readAllFiles(parser.files, "../allowed_files.csv")
 

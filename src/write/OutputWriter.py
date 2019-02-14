@@ -15,7 +15,8 @@ sys.path.insert(0, parentdir)
 
 class OutputWriter:
 
-    def __init__(self):
+    def __init__(self, analysis_type):
+        self.analysis_type = analysis_type
         self.curr_year = str(datetime.datetime.now().year)
 
         if datetime.datetime.now().month < 10:
@@ -39,7 +40,7 @@ class OutputWriter:
             self.curr_minute = str(datetime.datetime.now().minute)
         
         if datetime.datetime.now().second < 10:
-            self.curr_minute = "0" + str(datetime.datetime.now().minute)
+            self.curr_second = "0" + str(datetime.datetime.now().second)
         else:
             self.curr_second = str(datetime.datetime.now().second)
 
@@ -53,8 +54,8 @@ class OutputWriter:
             dict_data: the data dictionnary
         """
         tools = AnalysisTools()
-
-        file = open("../Output/Mhap-" + self.curr_complete_date + ".mhap", "w")
+        print(self.analysis_type)
+        file = open("../Output/Mhap-" + self.analysis_type + "-" +self.curr_complete_date + ".mhap", "w")
         for id_a in dict_data:
             for id_b in dict_data[id_a]:
                 for strand in dict_data[id_a][id_b]:
@@ -81,7 +82,6 @@ class OutputWriter:
                         "" + str(i_interval.getLength_B()) + "\n")
 
                         file.write(interval_line)
-                    del dict_data[id_b][id_a][strand][:]
         file.close()
 
 
@@ -93,7 +93,7 @@ class OutputWriter:
             dict_data: the data dictionnary
         """
         tools=AnalysisTools()
-        file=open("../Output/Paf-" +  self.curr_complete_date + ".paf", "w")
+        file=open("../Output/Paf-" + self.analysis_type + "-" + self.curr_complete_date + ".paf", "w")
         for id_a in dict_data:
             for id_b in dict_data[id_a]:
                 for strand in dict_data[id_a][id_b]:
@@ -118,5 +118,4 @@ class OutputWriter:
                         "" + "/" + "\t"
                         "" + "/" + "\n")
                         file.write(interval_line)
-                    del dict_data[id_b][id_a][strand][:]
         file.close()

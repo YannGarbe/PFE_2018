@@ -74,31 +74,27 @@ class ExtractData :
         int(line[int(config_file_type[7])]), int(line[int(config_file_type[8])]), 
         int(line[int(config_file_type[9])]), int(line[int(config_file_type[10])]))
         
-
-        #if 'read A' not in dict_data
-        #Create the second hashmap if the key is new        
-        if line[int(config_file_type[3])] not in dict_data:
-            dict_data[line[int(config_file_type[3])]] = {} 
-        if line[int(config_file_type[4])] not in dict_data:
-            dict_data[line[int(config_file_type[4])]] = {} 
-        
-        #if 'read B' not in dict_data[read A]
-        #Create the third hashmap if the key is new
-        if line[int(config_file_type[4])] not in dict_data[line[int(config_file_type[3])]]:
-            dict_data[line[int(config_file_type[3])]][line[int(config_file_type[4])]] = {}
-        if line[int(config_file_type[3])] not in dict_data[ line[int(config_file_type[4])]]:
-            dict_data[line[int(config_file_type[4])]][line[int(config_file_type[3])]] = {}
-        
-        #if '+' not in dict_data[read A][read B]
-        #Create the array if the interval is new in dict_data[read A][read B][+]
-        if strand not in dict_data[line[int(config_file_type[3])]][line[int(config_file_type[4])]] :
-            dict_data[line[int(config_file_type[3])]][line[int(config_file_type[4])]][strand] = []
-        if strand not in dict_data[line[int(config_file_type[4])]][line[int(config_file_type[3])]] :
-            dict_data[line[int(config_file_type[4])]][line[int(config_file_type[3])]][strand] = []
-        
-        #Add the interval in the triple hashmap
-        dict_data[line[int(config_file_type[3])]][line[int(config_file_type[4])]][strand].append(tmp_interval)
-        dict_data[line[int(config_file_type[4])]][line[int(config_file_type[3])]][strand].append(tmp_interval)
+        if (line[int(config_file_type[4])] in dict_data) and (line[int(config_file_type[3])] in dict_data[line[int(config_file_type[4])]]) and (strand in dict_data[line[int(config_file_type[4])]][line[int(config_file_type[3])]]):
+            dict_data[line[int(config_file_type[4])]][line[int(config_file_type[3])]][strand].append(tmp_interval)
+        else:
+            #if 'read A' not in dict_data
+            #Create the second hashmap if the key is new        
+            if line[int(config_file_type[3])] not in dict_data:
+                dict_data[line[int(config_file_type[3])]] = {} 
+            
+            #if 'read B' not in dict_data[read A]
+            #Create the third hashmap if the key is new
+            if line[int(config_file_type[4])] not in dict_data[line[int(config_file_type[3])]]:
+                dict_data[line[int(config_file_type[3])]][line[int(config_file_type[4])]] = {}
+            
+            #if '+' not in dict_data[read A][read B]
+            #Create the array if the interval is new in dict_data[read A][read B][+]
+            if strand not in dict_data[line[int(config_file_type[3])]][line[int(config_file_type[4])]] :
+                dict_data[line[int(config_file_type[3])]][line[int(config_file_type[4])]][strand] = []
+            
+            #Add the interval in the triple hashmap
+            dict_data[line[int(config_file_type[3])]][line[int(config_file_type[4])]][strand].append(tmp_interval)
+            
         
         return dict_data
 

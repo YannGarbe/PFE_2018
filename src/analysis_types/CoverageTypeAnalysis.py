@@ -14,6 +14,7 @@ from misc.AnalysisTools import *
 from misc.Interval import *
 from misc.MyWarnings import *
 
+"""This class implements the custom, max, and strict analyses"""
 class CoverageTypeAnalysis:
 
     def analyse_data(self, dict_data, filespath, analysis_type, custom_type_value, get_all):
