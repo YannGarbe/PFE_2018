@@ -22,6 +22,13 @@ def main(args):
 
     dict_data = readFiles.readAllFiles(parser.files, "../allowed_files.csv")
 
+    count = 0
+    for id_a in dict_data:
+        for id_b in dict_data[id_a]:
+            for strand in dict_data[id_a][id_b]:
+                count = count + len(dict_data[id_a][id_b][strand])
+
+    print("Taille ", count)
     if parser.stats is False:    
         tools = AnalysisTools()
 
@@ -43,9 +50,7 @@ def main(args):
                     dict_data = analysis.analyse_data(dict_data, parser.files, 12, int(parser.lessThan), parser.get_all)
                 else:
                     dict_data = analysis.analyse_data(dict_data, parser.files, 13, int(parser.equalsTo), parser.get_all)
-                #analysis = CustomAnalysis()
-                #dict_data = analysis.analyse_data(dict_data, parser.files, parser.moreThan, parser.lessThan, parser.equalsTo, parser.get_all)
-            
+                
         print("=============================")
 
         if parser.no_output is False:
